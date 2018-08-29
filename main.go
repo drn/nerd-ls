@@ -7,6 +7,7 @@ import (
   "bytes"
   "strings"
   "io/ioutil"
+  "github.com/fatih/color"
   "golang.org/x/crypto/ssh/terminal"
 )
 
@@ -25,19 +26,10 @@ func main() {
   files, err := ioutil.ReadDir("./")
   if err != nil { log.Fatal(err) }
 
-  maxSize := 0
-
-  for _, f := range files {
-    // if this is a .dotfile and '-a' is not specified, skip it
-    if []rune(f.Name())[0] == rune('.') {
-      continue
-    }
-    name := f.Name()
-    size := len(name)
-    if maxSize < size { maxSize = size }
-  }
-
   count := 0
+  maxSize := maxSize(files)
+
+  dirColor := color.New(color.FgCyan, color.Bold).SprintFunc()
 
   for _, f := range files {
     // if this is a .dotfile and '-a' is not specified, skip it
@@ -50,7 +42,6 @@ func main() {
 
     difference := maxSize - size
 
-
     if count + maxSize + 1 > width {
       buffer.WriteString("\n")
       count = 0
@@ -58,13 +49,30 @@ func main() {
 
     count += maxSize + 1
 
-    buffer.WriteString(name)
+    if f.IsDir() {
+      buffer.WriteString(dirColor(name))
+    } else {
+      buffer.WriteString(name)
+    }
     buffer.WriteString(strings.Repeat(" ", difference))
     buffer.WriteRune(' ')
   }
 
-  // fmt.Println(maxSize)
-
   fmt.Println(buffer.String())
+}
 
+func maxSize(files []os.FileInfo) int {
+  maxSize := 0
+
+  for _, f := range files {
+    // if this is a .dotfile and '-a' is not specified, skip it
+    if []rune(f.Name())[0] == rune('.') {
+      continue
+    }
+    name := f.Name()
+    size := len(name)
+    if maxSize < size { maxSize = size }
+  }
+
+  return maxSize
 }
