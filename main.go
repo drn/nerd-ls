@@ -3,12 +3,9 @@ package main
 import (
   "os"
   "fmt"
-  "log"
   "flag"
-  "bytes"
   "strings"
-  "io/ioutil"
-  "github.com/fatih/color"
+  "github.com/drn/nerd-ls/node"
   "golang.org/x/crypto/ssh/terminal"
 )
 
@@ -30,65 +27,34 @@ func main() {
     os.Exit(1)
   }
 
-  // fmt.Println(width)
-
-  var buffer bytes.Buffer
-
-  files, err := ioutil.ReadDir("./")
-  if err != nil { log.Fatal(err) }
+  nodes := node.Fetch()
 
   count := 0
-  maxSize := maxSize(files)
+  maxSize := maxSize(nodes)
 
-  dirColor := color.New(color.FgCyan, color.Bold).SprintFunc()
+  fmt.Printf("max size %d\n", maxSize)
 
-  for _, f := range files {
-    // if this is a .dotfile and '-a' is not specified, skip it
-    if !*all && []rune(f.Name())[0] == rune('.') {
-      continue
-    }
+  // dirColor := color.New(color.FgCyan, color.Bold).SprintFunc()
 
-    name := f.Name()
-    size := len(name)
-
-    difference := maxSize - size
-    if f.IsDir() { difference-- }
-
-    if count + maxSize + 3 > width {
-      buffer.WriteString("\n")
+  for _, node := range nodes {
+    count += maxSize
+    if count >= width {
+      fmt.Println()
       count = 0
     }
+    name := node.Name()
+    padding := maxSize - node.Size()
 
-    count += maxSize + 1
-
-    if f.IsDir() {
-      buffer.WriteString(" ")
-      buffer.WriteString(dirColor(name))
-      buffer.WriteRune('/')
-    } else {
-      buffer.WriteString("  ")
-      buffer.WriteString(name)
-    }
-    buffer.WriteString(strings.Repeat(" ", difference))
-    buffer.WriteRune(' ')
+    fmt.Printf("%s%s", name, strings.Repeat(" ", padding))
   }
-
-  fmt.Println(buffer.String())
+  fmt.Println()
 }
 
-func maxSize(files []os.FileInfo) int {
+func maxSize(nodes []node.Node) int {
   maxSize := 0
-
-  for _, f := range files {
-    // if this is a .dotfile and '-a' is not specified, skip it
-    if !*all && []rune(f.Name())[0] == rune('.') {
-      continue
-    }
-    name := f.Name()
-    size := len(name) + 2
-    if f.IsDir() { size++ }
+  for _, node := range nodes {
+    size := node.Size()
     if maxSize < size { maxSize = size }
   }
-
   return maxSize
 }
