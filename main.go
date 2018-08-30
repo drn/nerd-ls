@@ -41,8 +41,9 @@ func main() {
     size := len(name)
 
     difference := maxSize - size
+    if f.IsDir() { difference-- }
 
-    if count + maxSize + 1 > width {
+    if count + maxSize + 3 > width {
       buffer.WriteString("\n")
       count = 0
     }
@@ -50,8 +51,11 @@ func main() {
     count += maxSize + 1
 
     if f.IsDir() {
+      buffer.WriteString(" ")
       buffer.WriteString(dirColor(name))
+      buffer.WriteRune('/')
     } else {
+      buffer.WriteString("  ")
       buffer.WriteString(name)
     }
     buffer.WriteString(strings.Repeat(" ", difference))
@@ -70,7 +74,8 @@ func maxSize(files []os.FileInfo) int {
       continue
     }
     name := f.Name()
-    size := len(name)
+    size := len(name) + 2
+    if f.IsDir() { size++ }
     if maxSize < size { maxSize = size }
   }
 
