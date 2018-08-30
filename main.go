@@ -4,6 +4,7 @@ import (
   "os"
   "fmt"
   "log"
+  "flag"
   "bytes"
   "strings"
   "io/ioutil"
@@ -11,7 +12,17 @@ import (
   "golang.org/x/crypto/ssh/terminal"
 )
 
+var all = flag.Bool(
+  "a",
+  false,
+  "Include directory entries whose names begin with a dot (.).",
+)
+
 func main() {
+  flag.Parse()
+
+  if *all { fmt.Println("all") } else { fmt.Println("not all") }
+
   width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
   if err != nil {
     fmt.Printf("error getting terminal dimensions\n")
@@ -33,7 +44,7 @@ func main() {
 
   for _, f := range files {
     // if this is a .dotfile and '-a' is not specified, skip it
-    if []rune(f.Name())[0] == rune('.') {
+    if !*all && []rune(f.Name())[0] == rune('.') {
       continue
     }
 
@@ -70,7 +81,7 @@ func maxSize(files []os.FileInfo) int {
 
   for _, f := range files {
     // if this is a .dotfile and '-a' is not specified, skip it
-    if []rune(f.Name())[0] == rune('.') {
+    if !*all && []rune(f.Name())[0] == rune('.') {
       continue
     }
     name := f.Name()
