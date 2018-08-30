@@ -34,9 +34,5 @@ func (node Node) Name() string {
 }
 
 func (node Node) Size() int {
-  name := node.file.Name()
-  if node.file.IsDir() {
-    return len(name) + 4
-  }
-  return len(name) + 3
+  return len([]rune(node.Name()))
 }
