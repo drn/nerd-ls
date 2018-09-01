@@ -15,6 +15,7 @@ type Node interface {
 
 type node struct {
   file os.FileInfo
+  name string
 }
 
 // Fetch - Fetch nodes in currently directory
@@ -25,18 +26,23 @@ func Fetch() []Node {
   nodes := make([]Node, len(files))
 
   for i:=0; i<len(files); i++ {
-    nodes[i] = node{files[i]}
+    nodes[i] = node{files[i], ""}
   }
 
   return nodes
 }
 
 func (n node) Name() string {
+  if n.name != "" { return n.name }
+
   name := n.file.Name()
   if n.file.IsDir() {
-    return fmt.Sprintf(" %s/ ", name)
+    n.name = fmt.Sprintf(" %s/ ", name)
+  } else {
+    n.name = fmt.Sprintf("  %s ", name)
   }
-  return fmt.Sprintf("  %s ", name)
+
+  return n.name
 }
 
 func (n node) Size() int {
