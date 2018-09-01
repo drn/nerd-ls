@@ -18,8 +18,6 @@ var all = flag.Bool(
 func main() {
   flag.Parse()
 
-  if *all { fmt.Println("all") } else { fmt.Println("not all") }
-
   width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
   if err != nil {
     fmt.Printf("error getting terminal dimensions\n")
@@ -32,20 +30,20 @@ func main() {
   count := 0
   maxSize := maxSize(nodes)
 
-  fmt.Printf("max size %d\n", maxSize)
-
-  // dirColor := color.New(color.FgCyan, color.Bold).SprintFunc()
-
+  padding := 0
   for _, node := range nodes {
+    if padding > 0 { fmt.Print(strings.Repeat(" ", padding)) }
+
     count += maxSize
     if count >= width {
       fmt.Println()
-      count = 0
+      count = maxSize
     }
-    name := node.Name()
-    padding := maxSize - node.Size()
 
-    fmt.Printf("%s%s", name, strings.Repeat(" ", padding))
+    name := node.Name()
+    padding = maxSize - node.Size()
+
+    fmt.Print(name)
   }
   fmt.Println()
 }
