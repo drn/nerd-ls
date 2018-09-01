@@ -35,15 +35,13 @@ func Fetch() []Node {
 
 func (n node) Name() string {
   if n.name != "" { return n.name }
-
-  name := n.file.Name()
-  if n.file.IsDir() {
-    n.name = fmt.Sprintf(" %s/ ", name)
-  } else {
-    n.name = fmt.Sprintf("  %s ", name)
-  }
-
+  n.name = fmt.Sprintf("%c %s/ ", n.icon(), n.file.Name())
   return n.name
+}
+
+func (n node) icon() rune {
+  if n.file.IsDir() { return '' }
+  return ' '
 }
 
 func (n node) Size() int {
