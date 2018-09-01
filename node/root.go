@@ -16,6 +16,7 @@ type Node interface {
 type node struct {
   file os.FileInfo
   name string
+  size int
 }
 
 // Fetch - Fetch nodes in currently directory
@@ -26,7 +27,7 @@ func Fetch() []Node {
   nodes := make([]Node, len(files))
 
   for i:=0; i<len(files); i++ {
-    nodes[i] = node{files[i], ""}
+    nodes[i] = node{files[i], "", 0}
   }
 
   return nodes
@@ -46,5 +47,7 @@ func (n node) Name() string {
 }
 
 func (n node) Size() int {
-  return len([]rune(n.Name()))
+  if n.size != 0 { return n.size }
+  n.size = len([]rune(n.Name()))
+  return n.size
 }
