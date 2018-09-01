@@ -7,6 +7,16 @@ import (
   "io/ioutil"
 )
 
+// Node - File or directory helper methods
+type Node interface {
+  Name() string
+  Size() int
+}
+
+type node struct {
+  file os.FileInfo
+}
+
 // Fetch - Fetch nodes in currently directory
 func Fetch() []Node {
   files, err := ioutil.ReadDir(".")
@@ -15,24 +25,20 @@ func Fetch() []Node {
   nodes := make([]Node, len(files))
 
   for i:=0; i<len(files); i++ {
-    nodes[i] = Node{files[i]}
+    nodes[i] = node{files[i]}
   }
 
   return nodes
 }
 
-type Node struct {
-  file os.FileInfo
-}
-
-func (node Node) Name() string {
-  name := node.file.Name()
-  if node.file.IsDir() {
+func (n node) Name() string {
+  name := n.file.Name()
+  if n.file.IsDir() {
     return fmt.Sprintf(" %s/ ", name)
   }
   return fmt.Sprintf("  %s ", name)
 }
 
-func (node Node) Size() int {
-  return len([]rune(node.Name()))
+func (n node) Size() int {
+  return len([]rune(n.Name()))
 }
