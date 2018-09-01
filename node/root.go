@@ -5,6 +5,7 @@ import (
   "log"
   "fmt"
   "io/ioutil"
+  "github.com/fatih/color"
 )
 
 // Node - File or directory helper methods
@@ -35,13 +36,17 @@ func Fetch() []Node {
 
 func (n node) Name() string {
   if n.name != "" { return n.name }
-  n.name = fmt.Sprintf("%c %s/ ", n.icon(), n.file.Name())
+  n.name = fmt.Sprintf("%c %s/ ", n.icon(), n.color()(n.file.Name()))
   return n.name
 }
 
 func (n node) icon() rune {
   if n.file.IsDir() { return '' }
   return ' '
+}
+
+func (n node) color() func(a ...interface{}) string {
+  return color.New(color.FgCyan, color.Bold).SprintFunc()
 }
 
 func (n node) Size() int {
