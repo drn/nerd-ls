@@ -4,6 +4,7 @@ import (
   "os"
   "log"
   "fmt"
+  "path/filepath"
   "io/ioutil"
   "github.com/fatih/color"
 )
@@ -44,6 +45,19 @@ func (n node) name() string {
 
 func (n node) icon() rune {
   if n.file.IsDir() { return '' }
+
+  switch filepath.Ext(n.file.Name()) {
+  case ".js":
+    return ''
+  case ".json":
+    return ''
+  case ".md":
+    return ''
+  case ".rb":
+    return ''
+  case ".go":
+    return ''
+  }
   return ' '
 }
 
