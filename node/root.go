@@ -33,7 +33,7 @@ func Fetch() []Node {
 }
 
 func (n node) Name() string {
-  return n.color()(n.name())
+  return n.color().SprintFunc()(n.name())
 }
 
 func (n node) name() string {
@@ -47,9 +47,9 @@ func (n node) icon() rune {
   return ' '
 }
 
-func (n node) color() func(a ...interface{}) string {
-  if n.file.IsDir() { return color.New(color.FgCyan, color.Bold).SprintFunc() }
-  return color.New(color.FgWhite).SprintFunc()
+func (n node) color() *color.Color {
+  if n.file.IsDir() { return color.New(color.FgCyan, color.Bold) }
+  return color.New(color.FgWhite)
 }
 
 func (n node) Size() int {
