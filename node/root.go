@@ -40,7 +40,7 @@ func (n node) Name() string {
 func (n node) name() string {
   suffix := ""
   if n.file.IsDir() { suffix = "/" }
-  return fmt.Sprintf("%c %s%s ", n.icon(), n.file.Name(), suffix)
+  return fmt.Sprintf("%c  %s%s   ", n.icon(), n.file.Name(), suffix)
 }
 
 func (n node) icon() rune {
