@@ -16,8 +16,6 @@ type Node interface {
 
 type node struct {
   file os.FileInfo
-  name string
-  size int
 }
 
 // Fetch - Fetch nodes in currently directory
@@ -28,16 +26,20 @@ func Fetch() []Node {
   nodes := make([]Node, len(files))
 
   for i:=0; i<len(files); i++ {
-    nodes[i] = node{files[i], "", 0}
+    nodes[i] = node{files[i]}
   }
 
   return nodes
 }
 
 func (n node) Name() string {
-  if n.name != "" { return n.name }
-  n.name = fmt.Sprintf("%c %s/ ", n.icon(), n.color()(n.file.Name()))
-  return n.name
+  return n.color()(n.name())
+}
+
+func (n node) name() string {
+  suffix := ""
+  if n.file.IsDir() { suffix = "/" }
+  return fmt.Sprintf("%c %s%s ", n.icon(), n.file.Name(), suffix)
 }
 
 func (n node) icon() rune {
@@ -46,11 +48,10 @@ func (n node) icon() rune {
 }
 
 func (n node) color() func(a ...interface{}) string {
-  return color.New(color.FgCyan, color.Bold).SprintFunc()
+  if n.file.IsDir() { return color.New(color.FgCyan, color.Bold).SprintFunc() }
+  return color.New(color.FgWhite).SprintFunc()
 }
 
 func (n node) Size() int {
-  if n.size != 0 { return n.size }
-  n.size = len([]rune(n.Name()))
-  return n.size
+  return len([]rune(n.name()))
 }
