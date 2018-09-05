@@ -9,6 +9,22 @@ import (
   "github.com/fatih/color"
 )
 
+var icons = map[string]rune{
+  ".DS_Store":     '',
+  ".bash_history": '',
+  ".bash_profile": '',
+  ".conf":         '',
+  ".env":          '',
+  ".git":          '',
+  ".go":           '',
+  ".js":           '',
+  ".json":         '',
+  ".md":           '',
+  ".rb":           '',
+  ".yml":          '',
+  "dir":           '',
+}
+
 // Node - File or directory helper methods
 type Node interface {
   Name() string
@@ -44,21 +60,10 @@ func (n node) name() string {
 }
 
 func (n node) icon() rune {
-  if n.file.IsDir() { return '' }
-
-  switch filepath.Ext(n.file.Name()) {
-  case ".js":
-    return ''
-  case ".json":
-    return ''
-  case ".md":
-    return ''
-  case ".rb":
-    return ''
-  case ".go":
-    return ''
-  }
-  return ' '
+  if n.file.IsDir() { return icons["dir"] }
+  icon := icons[filepath.Ext(n.file.Name())]
+  if icon == 0 { return ' ' }
+  return icon
 }
 
 func (n node) color() *color.Color {
