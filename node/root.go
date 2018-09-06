@@ -25,14 +25,10 @@ var icons = map[string]rune{
   "dir":           '',
 }
 
-// Node - File or directory helper methods
-type Node interface {
-  Name() string
-  Size() int
-}
-
-type node struct {
-  file os.FileInfo
+// Node - Contains all info necessary to render file or directory
+type Node struct {
+  Name string
+  Size int
 }
 
 // Fetch - Fetch nodes in currently directory
@@ -43,34 +39,34 @@ func Fetch() []Node {
   nodes := make([]Node, len(files))
 
   for i:=0; i<len(files); i++ {
-    nodes[i] = node{files[i]}
+    nodes[i] = new(files[i])
   }
 
   return nodes
 }
 
-func (n node) Name() string {
-  return n.color().SprintFunc()(n.name())
+func new(file os.FileInfo) Node {
+  name := rawName(file)
+  size := len([]rune(name))
+  name = colorize(file, name)
+  return Node{name, size}
 }
 
-func (n node) name() string {
+func rawName(file os.FileInfo) string {
   suffix := ""
-  if n.file.IsDir() { suffix = "/" }
-  return fmt.Sprintf("%c  %s%s   ", n.icon(), n.file.Name(), suffix)
+  if file.IsDir() { suffix = "/" }
+  return fmt.Sprintf("%c  %s%s   ", icon(file), file.Name(), suffix)
 }
 
-func (n node) icon() rune {
-  if n.file.IsDir() { return icons["dir"] }
-  icon := icons[filepath.Ext(n.file.Name())]
+func icon(file os.FileInfo) rune {
+  if file.IsDir() { return icons["dir"] }
+  icon := icons[filepath.Ext(file.Name())]
   if icon == 0 { return ' ' }
   return icon
 }
 
-func (n node) color() *color.Color {
-  if n.file.IsDir() { return color.New(color.FgCyan, color.Bold) }
-  return color.New(color.FgWhite)
-}
-
-func (n node) Size() int {
-  return len([]rune(n.name()))
+func colorize(file os.FileInfo, name string) string {
+  colorConfig := color.New(color.FgWhite)
+  if file.IsDir() { colorConfig = color.New(color.FgCyan, color.Bold) }
+  return colorConfig.SprintFunc()(name)
 }
