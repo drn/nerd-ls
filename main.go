@@ -40,10 +40,9 @@ func main() {
       count = maxSize
     }
 
-    name := node.Name()
-    padding = maxSize - node.Size()
+    padding = maxSize - node.Size
 
-    fmt.Print(name)
+    fmt.Print(node.Name)
   }
   fmt.Println()
 }
@@ -51,7 +50,7 @@ func main() {
 func maxSize(nodes []node.Node) int {
   maxSize := 0
   for _, node := range nodes {
-    size := node.Size()
+    size := node.Size
     if maxSize < size { maxSize = size }
   }
   return maxSize
