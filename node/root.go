@@ -32,14 +32,23 @@ type Node struct {
 }
 
 // Fetch - Fetch nodes in currently directory
-func Fetch() []Node {
+func Fetch(options map[string]bool) []Node {
   files, err := ioutil.ReadDir(".")
   if err != nil { log.Fatal(err) }
 
-  nodes := make([]Node, len(files))
-
+  count := 0
   for i:=0; i<len(files); i++ {
-    nodes[i] = new(files[i])
+    if !options["all"] && []rune(files[i].Name())[0] == '.' { continue }
+    count++
+  }
+
+  nodes := make([]Node, count)
+
+  count = 0
+  for i:=0; i<len(files); i++ {
+    if !options["all"] && []rune(files[i].Name())[0] == '.' { continue }
+    nodes[count] = new(files[i])
+    count++
   }
 
   return nodes
