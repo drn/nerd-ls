@@ -25,7 +25,11 @@ func main() {
     os.Exit(1)
   }
 
-  nodes := node.Fetch()
+  nodes := node.Fetch(
+    map[string]bool{
+      "all": *all,
+    },
+  )
 
   count := 0
   maxSize := maxSize(nodes)
