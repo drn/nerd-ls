@@ -20,32 +20,24 @@ func Fetch(options map[string]bool) []Node {
   files, err := ioutil.ReadDir(".")
   if err != nil { log.Fatal(err) }
 
-  count := 0
-  for i:=0; i<len(files); i++ {
-    if !options["all"] && []rune(files[i].Name())[0] == '.' { continue }
-    count++
-  }
+  nodes := make([]Node, len(files)+2)
 
-  if options["all"] { count += 2 }
-
-  nodes := make([]Node, count)
-
-  count = 0
+  index := 0
   if options["all"] {
     file, _ := os.Stat(".")
     nodes[0] = new(file)
     file, _ = os.Stat("..")
     nodes[1] = new(file)
-    count += 2
+    index += 2
   }
 
   for i:=0; i<len(files); i++ {
     if !options["all"] && []rune(files[i].Name())[0] == '.' { continue }
-    nodes[count] = new(files[i])
-    count++
+    nodes[index] = new(files[i])
+    index++
   }
 
-  return nodes
+  return nodes[:index]
 }
 
 func new(file os.FileInfo) Node {
