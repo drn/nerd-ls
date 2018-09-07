@@ -46,3 +46,5 @@ implementation guidance. Thank you!!
 
 - [athityakumar/colorls](https://github.com/athityakumar/colorls)
 - [reganm/ls](https://github.com/reganm/ls)
+- [illinoisjackson/even-better-ls](https://github.com/illinoisjackson/even-better-ls)
+- [illinoisjackson/better-ls](https://github.com/illinoisjackson/better-ls)
