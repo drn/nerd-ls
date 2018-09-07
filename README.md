@@ -38,3 +38,11 @@ ls
 ❯ time (repeat 100 { colorls })
 ( repeat 100; do; colorls; done; )  24.74s user 11.75s system 96% cpu 37.846 total
 ```
+
+## Credit
+
+The following projects have provided either inspiration, configuration, or
+implementation guidance. Thank you!!
+
+- [athityakumar/colorls](https://github.com/athityakumar/colorls)
+- [reganm/ls](https://github.com/reganm/ls)
