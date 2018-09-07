@@ -26,9 +26,19 @@ func Fetch(options map[string]bool) []Node {
     count++
   }
 
+  if options["all"] { count += 2 }
+
   nodes := make([]Node, count)
 
   count = 0
+  if options["all"] {
+    file, _ := os.Stat(".")
+    nodes[0] = new(file)
+    file, _ = os.Stat("..")
+    nodes[1] = new(file)
+    count += 2
+  }
+
   for i:=0; i<len(files); i++ {
     if !options["all"] && []rune(files[i].Name())[0] == '.' { continue }
     nodes[count] = new(files[i])
