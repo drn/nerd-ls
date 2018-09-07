@@ -29,7 +29,7 @@ ls
 [nerd-ls](https://github.com/drn/nerd-ls)
 ```
 ❯ time (repeat 100 { nerd-ls })
-0.21s user 0.29s system 76% cpu 0.656 total
+0.21s user 0.29s system 86% cpu 0.574 total
 ```
 
 [better-ls](https://github.com/illinoisjackson/better-ls)
