@@ -53,3 +53,7 @@ implementation guidance. Thank you!!
 - [reganm/ls](https://github.com/reganm/ls)
 - [illinoisjackson/even-better-ls](https://github.com/illinoisjackson/even-better-ls)
 - [illinoisjackson/better-ls](https://github.com/illinoisjackson/better-ls)
+
+## References
+
+- [nerdfonts.com](http://nerdfonts.com/#cheat-sheet)
