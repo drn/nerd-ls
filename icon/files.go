@@ -139,7 +139,7 @@ var files = map[string]rune{
   "font":         '\uf031',
   "gform":        '\uf298',
   "git":          '\uf7a1',
-  "go":           '\ue626',
+  "go":           '\ufcd1',
   "gruntfile.js": '\ue74c',
   "hs":           '\ue777',
   "html":         '\uf13b',
