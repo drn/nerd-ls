@@ -1,3 +1,7 @@
+// Initial config from:
+// - https://github.com/athityakumar/colorls/blob/master/lib/yaml/files.yaml
+// - https://github.com/athityakumar/colorls/blob/master/lib/yaml/file_aliases.yaml
+
 package icon
 
 import (

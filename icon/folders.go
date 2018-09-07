@@ -1,3 +1,7 @@
+// Initial config from:
+// - https://github.com/athityakumar/colorls/blob/master/lib/yaml/folders.yaml
+// - https://github.com/athityakumar/colorls/blob/master/lib/yaml/folder_aliases.yaml
+
 package icon
 
 // ForFolder - Return rune icon corresponding to input folder name
