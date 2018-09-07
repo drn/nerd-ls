@@ -17,9 +17,11 @@ func ForFile(name string) rune {
   alias := fileAliases[ext]
   if alias != "" { ext = alias }
   icon := files[ext]
-  if icon == 0 { return files["file"] }
+  if icon == 0 { return fileDefault }
   return icon
 }
+
+var fileDefault = '\uf15b'
 
 var fileAliases = map[string]string{
   "apk":              "android",
@@ -135,7 +137,6 @@ var files = map[string]rune{
   "env":          '\uf462',
   "epub":         '\ue28a',
   "erl":          '\ue7b1',
-  "file":         '\uf15b',
   "font":         '\uf031',
   "gform":        '\uf298',
   "git":          '\uf7a1',
