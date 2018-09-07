@@ -10,14 +10,14 @@ func ForFile(name string) rune {
   name = strings.ToLower(name)
   ext := filepath.Ext(name)
   if len(ext) != 0 { ext = ext[1:] } else { ext = name }
-  alias := aliases[ext]
+  alias := fileAliases[ext]
   if alias != "" { ext = alias }
   icon := files[ext]
   if icon == 0 { return files["file"] }
   return icon
 }
 
-var aliases = map[string]string{
+var fileAliases = map[string]string{
   "apk":              "android",
   "gradle":           "android",
   "ds_store":         "apple",
