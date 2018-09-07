@@ -134,7 +134,7 @@ var files = map[string]rune{
   "file":         '\uf15b',
   "font":         '\uf031',
   "gform":        '\uf298',
-  "git":          '\uf1d3',
+  "git":          '\uf7a1',
   "go":           '\ue626',
   "gruntfile.js": '\ue74c',
   "hs":           '\ue777',

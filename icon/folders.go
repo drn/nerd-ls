@@ -16,7 +16,7 @@ var folderAliases = map[string]string{
 
 var folders = map[string]rune {
   ".atom":        '\ue764',
-  ".git":         '\uf1d3',
+  ".git":         '\ue5fb',
   ".github":      '\uf408',
   ".rvm":         '\ue21e',
   ".Trash":       '\uf1f8',
