@@ -9,9 +9,11 @@ func ForFolder(name string) rune {
   alias := folderAliases[name]
   if alias != "" { name = alias }
   icon := folders[name]
-  if icon == 0 { return folders["folder"] }
+  if icon == 0 { return folderDefault }
   return icon
 }
+
+var folderDefault = '\uf115'
 
 var folderAliases = map[string]string{
   "bin":     "config",
@@ -26,7 +28,6 @@ var folders = map[string]rune {
   ".Trash":       '\uf1f8',
   ".vscode":      '\ue70c',
   "config":       '\ue5fc',
-  "folder":       '\uf115',
   "hidden":       '\uf023',
   "lib":          '\uf121',
   "node_modules": '\ue718',
