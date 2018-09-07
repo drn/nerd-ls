@@ -4,26 +4,10 @@ import (
   "os"
   "log"
   "fmt"
-  "path/filepath"
   "io/ioutil"
   "github.com/fatih/color"
+  "github.com/drn/nerd-ls/icon"
 )
-
-var icons = map[string]rune{
-  ".DS_Store":     '',
-  ".bash_history": '',
-  ".bash_profile": '',
-  ".conf":         '',
-  ".env":          '',
-  ".git":          '',
-  ".go":           '',
-  ".js":           '',
-  ".json":         '',
-  ".md":           '',
-  ".rb":           '',
-  ".yml":          '',
-  "dir":           '',
-}
 
 // Node - Contains all info necessary to render file or directory
 type Node struct {
@@ -64,14 +48,20 @@ func new(file os.FileInfo) Node {
 func rawName(file os.FileInfo) string {
   suffix := ""
   if file.IsDir() { suffix = "/" }
-  return fmt.Sprintf("%c  %s%s   ", icon(file), file.Name(), suffix)
+
+  return fmt.Sprintf(
+    "%c  %s%s   ",
+    fetchIcon(file),
+    file.Name(),
+    suffix,
+  )
 }
 
-func icon(file os.FileInfo) rune {
-  if file.IsDir() { return icons["dir"] }
-  icon := icons[filepath.Ext(file.Name())]
-  if icon == 0 { return ' ' }
-  return icon
+func fetchIcon(file os.FileInfo) rune {
+  if file.IsDir() {
+    return icon.ForFolder(file.Name())
+  }
+  return icon.ForFile(file.Name())
 }
 
 func colorize(file os.FileInfo, name string) string {
