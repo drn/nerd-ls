@@ -49,6 +49,7 @@ time ( repeat 100 { ./lsicons.py })
 The following projects have provided either inspiration, configuration, or
 implementation guidance. Thank you!!
 
+- [ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
 - [athityakumar/colorls](https://github.com/athityakumar/colorls)
 - [reganm/ls](https://github.com/reganm/ls)
 - [illinoisjackson/even-better-ls](https://github.com/illinoisjackson/even-better-ls)
