@@ -32,6 +32,12 @@ ls
 0.21s user 0.29s system 86% cpu 0.574 total
 ```
 
+[exa](https://github.com/ogham/exa)
+```
+❯ time (repeat 100 { exa })
+0.60s user 0.60s system 90% cpu 1.338 total
+```
+
 [better-ls](https://github.com/illinoisjackson/better-ls)
 ```
 time ( repeat 100 { ./lsicons.py })
