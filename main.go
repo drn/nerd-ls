@@ -15,22 +15,40 @@ var all = flag.Bool(
   "Include directory entries whose names begin with a dot (.).",
 )
 
+var list = flag.Bool(
+  "l",
+  false,
+  "(The lowercase letter ``ell''.)  List in long format.  (See " +
+  "below.)  If the output is to a terminal, a total sum for all the " +
+  "file sizes is output on a line before the long listing.",
+)
+
 func main() {
   flag.Parse()
-
-  width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
-  if err != nil {
-    fmt.Printf("error getting terminal dimensions\n")
-    fmt.Printf("%v\n", err)
-    os.Exit(1)
-  }
 
   nodes := node.Fetch(
     map[string]bool{
       "all": *all,
+      "list": *list,
     },
   )
 
+  if *list {
+    displayList(nodes)
+  } else {
+    displayCompact(nodes)
+  }
+}
+
+func displayList(nodes []node.Node) {
+  for _, node := range nodes {
+    fmt.Printf("%s %s\n", node.Mode, node.Name)
+  }
+}
+
+
+func displayCompact(nodes []node.Node) {
+  width := width()
   count := 0
   maxSize := maxSize(nodes)
 
@@ -58,4 +76,14 @@ func maxSize(nodes []node.Node) int {
     if maxSize < size { maxSize = size }
   }
   return maxSize
+}
+
+func width() int {
+  width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
+  if err != nil {
+    fmt.Printf("error getting terminal dimensions\n")
+    fmt.Printf("%v\n", err)
+    os.Exit(1)
+  }
+  return width
 }
