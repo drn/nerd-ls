@@ -13,6 +13,7 @@ import (
 type Node struct {
   Name string
   Size int
+  Mode string
 }
 
 // Fetch - Fetch nodes in currently directory
@@ -44,7 +45,7 @@ func new(file os.FileInfo) Node {
   name := rawName(file)
   size := len([]rune(name))
   name = colorize(file, name)
-  return Node{name, size}
+  return Node{name, size, file.Mode().String()}
 }
 
 func rawName(file os.FileInfo) string {
