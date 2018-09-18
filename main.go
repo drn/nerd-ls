@@ -42,39 +42,39 @@ func main() {
 
 func displayLong(nodes []node.Node) {
   for _, node := range nodes {
-    fmt.Printf("%s  %s\n", node.Mode, node.Name)
+    fmt.Printf("%s  %d %s\n", node.Mode, node.Size, node.Name)
   }
 }
 
 func displayCompact(nodes []node.Node) {
   width := width()
   count := 0
-  maxSize := maxSize(nodes)
+  maxLength := maxLength(nodes)
 
   padding := 0
   for _, node := range nodes {
     if padding > 0 { fmt.Print(strings.Repeat(" ", padding)) }
 
-    count += maxSize
+    count += maxLength
     if count >= width {
       fmt.Println()
-      count = maxSize
+      count = maxLength
     }
 
-    padding = maxSize - node.Size
+    padding = maxLength - node.Length
 
     fmt.Print(node.Name)
   }
   fmt.Println()
 }
 
-func maxSize(nodes []node.Node) int {
-  maxSize := 0
+func maxLength(nodes []node.Node) int {
+  maxLength := 0
   for _, node := range nodes {
-    size := node.Size
-    if maxSize < size { maxSize = size }
+    size := node.Length
+    if maxLength < size { maxLength = size }
   }
-  return maxSize
+  return maxLength
 }
 
 func width() int {
