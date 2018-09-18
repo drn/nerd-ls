@@ -5,7 +5,7 @@ import (
   "fmt"
   "flag"
   "strings"
-  "github.com/drn/nerd-ls/node"
+  "github.com/drn/nerd-ls/list"
   "golang.org/x/crypto/ssh/terminal"
 )
 
@@ -26,7 +26,7 @@ var long = flag.Bool(
 func main() {
   flag.Parse()
 
-  nodes := node.Fetch(
+  nodes := list.Fetch(
     map[string]bool{
       "all": *all,
       "long": *long,
@@ -40,41 +40,31 @@ func main() {
   }
 }
 
-func displayLong(nodes []node.Node) {
-  for _, node := range nodes {
+func displayLong(list list.List) {
+  for _, node := range list.Nodes {
     fmt.Printf("%s  %d %s\n", node.Mode, node.Size, node.Name)
   }
 }
 
-func displayCompact(nodes []node.Node) {
+func displayCompact(list list.List) {
   width := width()
   count := 0
-  maxLength := maxLength(nodes)
 
   padding := 0
-  for _, node := range nodes {
+  for _, node := range list.Nodes {
     if padding > 0 { fmt.Print(strings.Repeat(" ", padding)) }
 
-    count += maxLength
+    count += list.MaxLength
     if count >= width {
       fmt.Println()
-      count = maxLength
+      count = list.MaxLength
     }
 
-    padding = maxLength - node.Length
+    padding = list.MaxLength - node.Length
 
     fmt.Print(node.Name)
   }
   fmt.Println()
-}
-
-func maxLength(nodes []node.Node) int {
-  maxLength := 0
-  for _, node := range nodes {
-    size := node.Length
-    if maxLength < size { maxLength = size }
-  }
-  return maxLength
 }
 
 func width() int {
