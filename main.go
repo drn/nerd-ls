@@ -5,6 +5,7 @@ import (
   "fmt"
   "flag"
   "strings"
+  "strconv"
   "github.com/drn/nerd-ls/list"
   "golang.org/x/crypto/ssh/terminal"
 )
@@ -42,8 +43,22 @@ func main() {
 
 func displayLong(list list.List) {
   for _, node := range list.Nodes {
-    fmt.Printf("%s  %d %s\n", node.Mode, node.Size, node.Name)
+    padding := strings.Repeat(
+      " ",
+      intLength(list.MaxSize) - intLength(node.Size),
+    )
+    fmt.Printf(
+      "%s  %s%d  %s\n",
+      node.Mode,
+      padding,
+      node.Size,
+      node.Name,
+    )
   }
+}
+
+func intLength(size int) int {
+  return len([]rune(strconv.Itoa(size)))
 }
 
 func displayCompact(list list.List) {
