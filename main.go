@@ -15,7 +15,7 @@ var all = flag.Bool(
   "Include directory entries whose names begin with a dot (.).",
 )
 
-var list = flag.Bool(
+var long = flag.Bool(
   "l",
   false,
   "(The lowercase letter ``ell''.)  List in long format.  (See " +
@@ -29,23 +29,22 @@ func main() {
   nodes := node.Fetch(
     map[string]bool{
       "all": *all,
-      "list": *list,
+      "long": *long,
     },
   )
 
-  if *list {
-    displayList(nodes)
+  if *long {
+    displayLong(nodes)
   } else {
     displayCompact(nodes)
   }
 }
 
-func displayList(nodes []node.Node) {
+func displayLong(nodes []node.Node) {
   for _, node := range nodes {
-    fmt.Printf("%s %s\n", node.Mode, node.Name)
+    fmt.Printf("%s  %s\n", node.Mode, node.Name)
   }
 }
-
 
 func displayCompact(nodes []node.Node) {
   width := width()
