@@ -15,8 +15,8 @@ type List struct {
 }
 
 // Fetch - Fetch List representing current directory
-func Fetch(options map[string]bool) List {
-  files, err := ioutil.ReadDir(".")
+func Fetch(dir string, options map[string]bool) List {
+  files, err := ioutil.ReadDir(dir)
   if err != nil { log.Fatal(err) }
 
   nodes := make([]node.Node, len(files)+2)
