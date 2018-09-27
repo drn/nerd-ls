@@ -27,7 +27,11 @@ var long = flag.Bool(
 func main() {
   flag.Parse()
 
+  dir := "."
+  if len(os.Args) > 1 { dir = os.Args[1] }
+
   nodes := list.Fetch(
+    dir,
     map[string]bool{
       "all": *all,
       "long": *long,
