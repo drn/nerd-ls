@@ -28,7 +28,7 @@ func main() {
   flag.Parse()
 
   dir := "."
-  if len(os.Args) > 1 { dir = os.Args[1] }
+  if len(flag.Args()) >= 1 { dir = flag.Args()[0] }
 
   nodes := list.Fetch(
     dir,
