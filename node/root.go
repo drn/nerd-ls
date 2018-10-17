@@ -13,6 +13,7 @@ import (
 type Node struct {
   Name string
   Length int
+  LinkCount int
   Mode string
   Size int
   User string
@@ -27,6 +28,7 @@ func New(file os.FileInfo) Node {
 
   uid := fmt.Sprint(file.Sys().(*syscall.Stat_t).Uid)
   gid := fmt.Sprint(file.Sys().(*syscall.Stat_t).Gid)
+  nlink := int(file.Sys().(*syscall.Stat_t).Nlink)
 
   fileUser, _ := user.LookupId(uid)
   fileGroup, _ := user.LookupGroupId(gid)
@@ -34,6 +36,7 @@ func New(file os.FileInfo) Node {
   return Node{
     name,
     length,
+    nlink,
     file.Mode().String(),
     int(file.Size()),
     fileUser.Username,
