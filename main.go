@@ -52,12 +52,13 @@ func displayLong(list list.List) {
       intLength(list.MaxSize) - intLength(node.Size),
     )
     fmt.Printf(
-      "%s  %s%d %s %s  %s\n",
+      "%s %d %s %s %s%d %s\n",
       node.Mode,
-      padding,
-      node.Size,
+      node.LinkCount,
       node.User,
       node.Group,
+      padding,
+      node.Size,
       node.Name,
     )
   }
