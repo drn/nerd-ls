@@ -10,8 +10,6 @@ import (
 // List - Contains all info necessary to render list of nodes
 type List struct {
   Nodes []node.Node
-  MaxLength int
-  MaxSize int
 }
 
 // Fetch - Fetch List representing current directory
@@ -38,27 +36,5 @@ func Fetch(dir string, options map[string]bool) List {
 
   nodes = nodes[:index]
 
-  return List{
-    nodes,
-    maxLength(nodes),
-    maxSize(nodes),
-  }
-}
-
-func maxLength(nodes []node.Node) int {
-  maxLength := 0
-  for _, node := range nodes {
-    length := node.Length
-    if maxLength < length { maxLength = length }
-  }
-  return maxLength
-}
-
-func maxSize(nodes []node.Node) int {
-  maxSize := 0
-  for _, node := range nodes {
-    size := node.Size
-    if maxSize < size { maxSize = size }
-  }
-  return maxSize
+  return List{ nodes }
 }
