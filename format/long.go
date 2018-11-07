@@ -4,11 +4,11 @@ import (
   "fmt"
   "strconv"
   "github.com/fatih/color"
-  "github.com/drn/nerd-ls/list"
+  "github.com/drn/nerd-ls/node"
 )
 
-func Long(list list.List) {
-  for _, node := range list.Nodes {
+func Long(nodes []node.Node) {
+  for _, node := range nodes {
     fmt.Printf(
       "%s %d %s %s %d %s\n",
       formatMode(node.Mode),

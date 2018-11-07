@@ -7,13 +7,8 @@ import (
   "github.com/drn/nerd-ls/node"
 )
 
-// List - Contains all info necessary to render list of nodes
-type List struct {
-  Nodes []node.Node
-}
-
 // Fetch - Fetch List representing current directory
-func Fetch(dir string, options map[string]bool) List {
+func Fetch(dir string, options map[string]bool) []node.Node {
   files, err := ioutil.ReadDir(dir)
   if err != nil { log.Fatal(err) }
 
@@ -34,7 +29,5 @@ func Fetch(dir string, options map[string]bool) List {
     index++
   }
 
-  nodes = nodes[:index]
-
-  return List{ nodes }
+  return nodes[:index]
 }
