@@ -7,6 +7,7 @@ import (
   "github.com/drn/nerd-ls/node"
 )
 
+// Long - Format listing in long format.
 func Long(nodes []node.Node) {
   for _, node := range nodes {
     fmt.Printf(
