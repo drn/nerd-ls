@@ -5,18 +5,17 @@ import (
   "fmt"
   "strings"
   "github.com/drn/nerd-ls/node"
-  "github.com/drn/nerd-ls/list"
   "golang.org/x/crypto/ssh/terminal"
 )
 
-func Compact(list list.List) {
+func Compact(nodes []node.Node) {
   width := width()
   count := 0
 
-  maxLength := maxLength(list.Nodes)
+  maxLength := maxLength(nodes)
 
   padding := 0
-  for _, node := range list.Nodes {
+  for _, node := range nodes {
     if padding > 0 { fmt.Print(strings.Repeat(" ", padding)) }
 
     count += maxLength
