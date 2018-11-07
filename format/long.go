@@ -2,7 +2,6 @@ package format
 
 import (
   "fmt"
-  "strings"
   "strconv"
   "github.com/fatih/color"
   "github.com/drn/nerd-ls/list"
@@ -10,17 +9,12 @@ import (
 
 func Long(list list.List) {
   for _, node := range list.Nodes {
-    padding := strings.Repeat(
-      " ",
-      intLength(list.MaxSize) - intLength(node.Size),
-    )
     fmt.Printf(
-      "%s %d %s %s %s%d %s\n",
+      "%s %d %s %s %d %s\n",
       formatMode(node.Mode),
       node.LinkCount,
       node.User,
       node.Group,
-      padding,
       node.Size,
       node.Name,
     )
