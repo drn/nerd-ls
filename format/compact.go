@@ -8,6 +8,7 @@ import (
   "golang.org/x/crypto/ssh/terminal"
 )
 
+// Compact - Format listing in compact format.
 func Compact(nodes []node.Node) {
   width := width()
   count := 0
