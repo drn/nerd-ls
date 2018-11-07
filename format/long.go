@@ -2,24 +2,62 @@ package format
 
 import (
   "fmt"
+  "regexp"
+  "strings"
   "strconv"
   "github.com/fatih/color"
   "github.com/drn/nerd-ls/node"
 )
 
+const ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]" +
+             "*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=>" +
+             "<~]))"
+var ansiRegex = regexp.MustCompile(ansi)
+
 // Long - Format listing in long format.
 func Long(nodes []node.Node) {
-  for _, node := range nodes {
-    fmt.Printf(
-      "%s %d %s %s %d %s\n",
+  // populate values
+  values := make([][]string, len(nodes))
+  for i := range values {
+    node := nodes[i]
+    values[i] = []string{
       formatMode(node.Mode),
-      node.LinkCount,
+      strconv.Itoa(node.LinkCount),
       node.User,
       node.Group,
-      node.Size,
+      strconv.Itoa(node.Size),
       node.Name,
-    )
+    }
   }
+
+  // calculate lengths and max lengths
+  lengths := make([][]int, len(values))
+  maxLengths := make([]int, len(values[0]))
+  for i := range values {
+    lengths[i] = make([]int, len(values[i]))
+    for j := range values[i] {
+      length := len(strip(values[i][j]))
+      lengths[i][j] = length
+      if length > maxLengths[j] {
+        maxLengths[j] = length
+      }
+    }
+  }
+
+  // output padded values
+  for i := range values {
+    for j := range values[i] {
+      fmt.Print(values[i][j])
+      padding := maxLengths[j] - lengths[i][j]
+      fmt.Print(strings.Repeat(" ", padding + 1))
+    }
+    fmt.Print("\n")
+  }
+}
+
+// strips ANSI color codes from string
+func strip(str string) string {
+  return ansiRegex.ReplaceAllString(str, "")
 }
 
 func formatMode(mode string) string {
@@ -43,8 +81,4 @@ func formatMode(mode string) string {
 func colorize(mode rune, color *color.Color) string {
   if mode == '-' { return "-" }
   return color.Sprintf("%c", mode)
-}
-
-func intLength(size int) int {
-  return len([]rune(strconv.Itoa(size)))
 }
