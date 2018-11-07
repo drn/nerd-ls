@@ -4,13 +4,7 @@ A golang LS implementation that provides color and icons to `ls`.
 
 * * *
 
-`nerd-ls -a`
-
-<img src="compact.png" width="592">
-
-`nerd-ls -l`
-
-<img src="long.png" width="358">
+<img src="screenshot.png" width="600">
 
 ## In Development
 
