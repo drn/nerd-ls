@@ -48,11 +48,15 @@ func Long(nodes []node.Node) {
   }
 
   // output padded values
+  length := len(values[0])
   for i := range values {
     for j := range values[i] {
-      fmt.Print(values[i][j])
-      padding := maxLengths[j] - lengths[i][j]
-      fmt.Print(strings.Repeat(" ", padding + 1))
+      // pad all attributes except the last
+      if j < length - 1 {
+        padding := maxLengths[j] - lengths[i][j]
+        fmt.Print(strings.Repeat(" ", padding))
+      }
+      fmt.Printf("%s ", values[i][j])
     }
     fmt.Print("\n")
   }
