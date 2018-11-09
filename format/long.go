@@ -23,13 +23,13 @@ func Long(nodes []node.Node) {
     values[i] = []string{
       formatMode(node.Mode),
       strconv.Itoa(node.LinkCount),
-      node.User,
-      node.Group,
+      fmt.Sprintf("%s ", node.User),
+      fmt.Sprintf("%s ", node.Group),
       strconv.Itoa(node.Size),
       node.Time.Month().String()[:3],
       fmt.Sprintf("%2d", node.Time.Day()),
       fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
-      node.Name,
+      fmt.Sprintf(" %s", node.Name),
     }
   }
 
