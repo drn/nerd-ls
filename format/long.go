@@ -26,6 +26,9 @@ func Long(nodes []node.Node) {
       node.User,
       node.Group,
       strconv.Itoa(node.Size),
+      node.Time.Month().String()[:3],
+      fmt.Sprintf("%2d", node.Time.Day()),
+      fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
       node.Name,
     }
   }

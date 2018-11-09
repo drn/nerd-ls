@@ -3,6 +3,7 @@ package node
 import (
   "os"
   "fmt"
+  "time"
   "syscall"
   "os/user"
   "github.com/fatih/color"
@@ -18,6 +19,7 @@ type Node struct {
   Size int
   User string
   Group string
+  Time time.Time
 }
 
 // New - Initializes Node with os.FileInfo
@@ -26,12 +28,17 @@ func New(file os.FileInfo) Node {
   length := len([]rune(name))
   name = colorize(file, name)
 
-  uid := fmt.Sprint(file.Sys().(*syscall.Stat_t).Uid)
-  gid := fmt.Sprint(file.Sys().(*syscall.Stat_t).Gid)
-  nlink := int(file.Sys().(*syscall.Stat_t).Nlink)
+  stat := file.Sys().(*syscall.Stat_t)
+
+  uid := fmt.Sprint(stat.Uid)
+  gid := fmt.Sprint(stat.Gid)
 
   fileUser, _ := user.LookupId(uid)
   fileGroup, _ := user.LookupGroupId(gid)
+
+  nlink := int(stat.Nlink)
+
+  time := stat.Ctimespec
 
   return Node{
     name,
@@ -41,7 +48,12 @@ func New(file os.FileInfo) Node {
     int(file.Size()),
     fileUser.Username,
     fileGroup.Name,
+    timespecToTime(time),
   }
+}
+
+func timespecToTime(ts syscall.Timespec) time.Time {
+  return time.Unix(int64(ts.Sec), int64(ts.Nsec))
 }
 
 func rawName(file os.FileInfo) string {
