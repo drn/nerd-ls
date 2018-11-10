@@ -1,16 +1,16 @@
 package format
 
 import (
-  "os"
   "fmt"
   "strings"
+  "github.com/fatih/color"
   "github.com/drn/nerd-ls/node"
-  "golang.org/x/crypto/ssh/terminal"
+  "github.com/drn/nerd-ls/util"
 )
 
 // Compact - Format listing in compact format.
 func Compact(nodes []node.Node) {
-  width := width()
+  width := util.TerminalWidth()
 
   if width == 0 {
     pipedDisplay(nodes)
@@ -26,37 +26,46 @@ func pipedDisplay(nodes []node.Node) {
 }
 
 func compactDisplay(nodes []node.Node, width int) {
-  count := 0
-  maxLength := maxLength(nodes)
-
-  padding := 0
-  for _, node := range nodes {
-    if padding > 0 { fmt.Print(strings.Repeat(" ", padding)) }
-
-    count += maxLength
-    if count >= width {
-      fmt.Println()
-      count = maxLength
-    }
-
-    padding = maxLength - len(node.Name)
-
-    fmt.Print(node.Name)
-  }
-  fmt.Println()
-}
-
-func maxLength(nodes []node.Node) int {
+  // determine max node length
   maxLength := 0
   for _, node := range nodes {
     length := len(node.Name)
     if maxLength < length { maxLength = length }
   }
-  return maxLength
+
+  lengthPerNode := maxLength + 5 // name + icon + 4 spaces
+  nodesPerRow := width / lengthPerNode
+  nodesLength := len(nodes)
+
+  for i := 0; i < nodesLength; i ++ {
+    node := nodes[i]
+
+    // print node
+    fmt.Printf(
+      "%c  %s",
+      node.Icon,
+      nodeColor(node).Sprint(node.Name),
+    )
+
+    if (i + 1) % nodesPerRow == 0 {
+      // start a new row
+      fmt.Println()
+    } else {
+      // print right padding
+      fmt.Printf(
+        "  %s",
+        strings.Repeat(" ", maxLength - len(node.Name)),
+      )
+    }
+  }
+
+  // skip last linebreak if already printed
+  if nodesLength % nodesPerRow != 0 {
+    fmt.Println()
+  }
 }
 
-func width() int {
-  width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
-  if err == nil { return width }
-  return 0
+func nodeColor(node node.Node) *color.Color {
+  if !node.IsDir { return color.New(color.FgWhite) }
+  return color.New(color.FgCyan, color.Bold)
 }
