@@ -114,6 +114,11 @@ func formatTime(node node.Node) string {
 func formatMode(mode string) string {
   runes := []rune(mode)
 
+  colorize := func(mode rune, color *color.Color) string {
+    if mode == '-' { return "-" }
+    return color.Sprintf("%c", mode)
+  }
+
   return fmt.Sprintf(
     "%s%s%s%s%s%s%s%s%s%s ",
     colorize(runes[0], color.New(color.FgWhite, color.Bold)),
@@ -127,11 +132,6 @@ func formatMode(mode string) string {
     colorize(runes[8], color.New(color.FgRed)),
     colorize(runes[9], color.New(color.FgRed)),
   )
-}
-
-func colorize(mode rune, color *color.Color) string {
-  if mode == '-' { return "-" }
-  return color.Sprintf("%c", mode)
 }
 
 func formatName(node node.Node) string {
