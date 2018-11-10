@@ -20,6 +20,7 @@ type Node struct {
   User string
   Group string
   Time time.Time
+  Symlink string
 }
 
 // New - Initializes Node with os.FileInfo
@@ -40,6 +41,11 @@ func New(file os.FileInfo) Node {
 
   time := stat.Ctimespec
 
+  symlink := ""
+  if file.Mode() & os.ModeSymlink == os.ModeSymlink {
+    symlink, _ = os.Readlink(file.Name())
+  }
+
   return Node{
     name,
     length,
@@ -49,6 +55,7 @@ func New(file os.FileInfo) Node {
     fileUser.Username,
     fileGroup.Name,
     timespecToTime(time),
+    symlink,
   }
 }
 
