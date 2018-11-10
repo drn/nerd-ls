@@ -59,7 +59,7 @@ func extractValues(node node.Node) []string {
     strconv.Itoa(node.LinkCount),
     fmt.Sprintf("%s ", node.User),
     fmt.Sprintf("%s  ", node.Group),
-    colorSize(node.Size, humanize.Bytes(node.Size)),
+    formatSize(node.Size),
     node.Time.Month().String()[:3],
     fmt.Sprintf("%2d", node.Time.Day()),
     fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
@@ -67,7 +67,8 @@ func extractValues(node node.Node) []string {
   }
 }
 
-func colorSize(sizeInt int, str string) string {
+func formatSize(sizeInt int) string {
+  str := humanize.Bytes(sizeInt)
   size := float64(sizeInt)
   base := float64(1024)
   // less than 1K
