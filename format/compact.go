@@ -11,8 +11,22 @@ import (
 // Compact - Format listing in compact format.
 func Compact(nodes []node.Node) {
   width := width()
-  count := 0
 
+  if width == 0 {
+    pipedDisplay(nodes)
+  } else {
+    compactDisplay(nodes, width)
+  }
+}
+
+func pipedDisplay(nodes []node.Node) {
+  for _, node := range nodes {
+    fmt.Println(node.Name)
+  }
+}
+
+func compactDisplay(nodes []node.Node, width int) {
+  count := 0
   maxLength := maxLength(nodes)
 
   padding := 0
@@ -43,10 +57,6 @@ func maxLength(nodes []node.Node) int {
 
 func width() int {
   width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
-  if err != nil {
-    fmt.Printf("error getting terminal dimensions\n")
-    fmt.Printf("%v\n", err)
-    os.Exit(1)
-  }
-  return width
+  if err == nil { return width }
+  return 0
 }
