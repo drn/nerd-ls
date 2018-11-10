@@ -3,6 +3,7 @@ package format
 import (
   "fmt"
   "math"
+  "time"
   "regexp"
   "strings"
   "strconv"
@@ -60,9 +61,7 @@ func extractValues(node node.Node) []string {
     fmt.Sprintf("%s ", node.User),
     fmt.Sprintf("%s  ", node.Group),
     formatSize(node.Size),
-    node.Time.Month().String()[:3],
-    fmt.Sprintf("%2d", node.Time.Day()),
-    fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
+    formatTime(node.Time),
     fmt.Sprintf(" %s", node.Name),
   }
 }
@@ -81,6 +80,16 @@ func formatSize(sizeInt int) string {
   if size < math.Pow(base, 3) { return color.RedString(str) }
   // above 1G
   return color.New(color.FgRed, color.Bold).Sprint(str)
+}
+
+func formatTime(time time.Time) string {
+  return fmt.Sprintf(
+    "%s %s %02d:%02d",
+    time.Month().String()[:3],
+    fmt.Sprintf("%2d", time.Day()),
+    time.Hour(),
+    time.Minute(),
+  )
 }
 
 // strips ANSI color codes from string
