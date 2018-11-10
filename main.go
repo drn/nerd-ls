@@ -1,12 +1,9 @@
 package main
 
 import (
-  "os"
-  "fmt"
   "flag"
   "github.com/drn/nerd-ls/list"
   "github.com/drn/nerd-ls/format"
-  "golang.org/x/crypto/ssh/terminal"
 )
 
 var all = flag.Bool(
@@ -42,14 +39,4 @@ func main() {
   } else {
     format.Compact(nodes)
   }
-}
-
-func width() int {
-  width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
-  if err != nil {
-    fmt.Printf("error getting terminal dimensions\n")
-    fmt.Printf("%v\n", err)
-    os.Exit(1)
-  }
-  return width
 }
