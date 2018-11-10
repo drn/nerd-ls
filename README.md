@@ -13,6 +13,12 @@ check it out as development progresses.
 
 ## Install
 
+Requires a
+[nerd-font patched font](https://github.com/ryanoasis/nerd-fonts#patched-fonts)
+for the custom icons. My preferred font is a patched Menlo font that you can
+find
+[here](https://github.com/drn/dots/blob/master/lib/fonts/Menlo%20Regular%20Nerd%20Font%20Complete.otf).
+
 ```
 go get github.com/drn/nerd-ls
 alias ls=nerd-ls
