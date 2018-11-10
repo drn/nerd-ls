@@ -6,14 +6,14 @@ import (
   "time"
   "syscall"
   "os/user"
-  "github.com/fatih/color"
   "github.com/drn/nerd-ls/icon"
 )
 
 // Node - Contains all info necessary to render file or directory
 type Node struct {
+  Icon rune
+  IsDir bool
   Name string
-  Length int
   LinkCount int
   Mode string
   Size int
@@ -25,10 +25,6 @@ type Node struct {
 
 // New - Initializes Node with os.FileInfo
 func New(file os.FileInfo) Node {
-  name := rawName(file)
-  length := len([]rune(name))
-  name = colorize(file, name)
-
   stat := file.Sys().(*syscall.Stat_t)
 
   uid := fmt.Sprint(stat.Uid)
@@ -47,8 +43,9 @@ func New(file os.FileInfo) Node {
   }
 
   return Node{
-    name,
-    length,
+    fetchIcon(file),
+    file.IsDir(),
+    name(file),
     nlink,
     file.Mode().String(),
     int(file.Size()),
@@ -63,16 +60,9 @@ func timespecToTime(ts syscall.Timespec) time.Time {
   return time.Unix(int64(ts.Sec), int64(ts.Nsec))
 }
 
-func rawName(file os.FileInfo) string {
-  suffix := ""
-  if file.IsDir() { suffix = "/" }
-
-  return fmt.Sprintf(
-    "%c  %s%s   ",
-    fetchIcon(file),
-    file.Name(),
-    suffix,
-  )
+func name(file os.FileInfo) string {
+  if !file.IsDir() { return file.Name() }
+  return fmt.Sprintf("%s/", file.Name())
 }
 
 func fetchIcon(file os.FileInfo) rune {
@@ -80,10 +70,4 @@ func fetchIcon(file os.FileInfo) rune {
     return icon.ForFolder(file.Name())
   }
   return icon.ForFile(file.Name())
-}
-
-func colorize(file os.FileInfo, name string) string {
-  colorConfig := color.New(color.FgWhite)
-  if file.IsDir() { colorConfig = color.New(color.FgCyan, color.Bold) }
-  return colorConfig.SprintFunc()(name)
 }

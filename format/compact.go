@@ -39,7 +39,7 @@ func compactDisplay(nodes []node.Node, width int) {
       count = maxLength
     }
 
-    padding = maxLength - node.Length
+    padding = maxLength - len(node.Name)
 
     fmt.Print(node.Name)
   }
@@ -49,7 +49,7 @@ func compactDisplay(nodes []node.Node, width int) {
 func maxLength(nodes []node.Node) int {
   maxLength := 0
   for _, node := range nodes {
-    length := node.Length
+    length := len(node.Name)
     if maxLength < length { maxLength = length }
   }
   return maxLength
