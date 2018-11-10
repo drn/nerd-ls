@@ -61,7 +61,7 @@ func extractValues(node node.Node) []string {
     fmt.Sprintf("%s ", node.User),
     fmt.Sprintf("%s  ", node.Group),
     formatSize(node.Size),
-    formatTime(node.Time),
+    formatTime(node),
     fmt.Sprintf(" %s", node.Name),
   }
 }
@@ -82,13 +82,30 @@ func formatSize(sizeInt int) string {
   return color.New(color.FgRed, color.Bold).Sprint(str)
 }
 
-func formatTime(time time.Time) string {
+func formatTime(node node.Node) string {
+  var timeOrYear string
+
+  if time.Now().Year() == node.Time.Year() {
+    timeOrYear = fmt.Sprintf(
+      "%s:%s",
+      color.CyanString(fmt.Sprintf("%02d", node.Time.Hour())),
+      color.CyanString(fmt.Sprintf("%02d", node.Time.Minute())),
+    )
+  } else {
+    timeOrYear = color.New(
+      color.FgMagenta,
+      color.Bold,
+    ).Sprintf(
+      " %d",
+      node.Time.Year(),
+    )
+  }
+
   return fmt.Sprintf(
-    "%s %s %02d:%02d",
-    time.Month().String()[:3],
-    fmt.Sprintf("%2d", time.Day()),
-    time.Hour(),
-    time.Minute(),
+    "%s %s %s",
+    color.CyanString(node.Time.Month().String()[:3]),
+    color.CyanString(fmt.Sprintf("%2d", node.Time.Day())),
+    timeOrYear,
   )
 }
 
