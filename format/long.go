@@ -2,6 +2,7 @@ package format
 
 import (
   "fmt"
+  "math"
   "regexp"
   "strings"
   "strconv"
@@ -25,8 +26,8 @@ func Long(nodes []node.Node) {
       formatMode(node.Mode),
       strconv.Itoa(node.LinkCount),
       fmt.Sprintf("%s ", node.User),
-      fmt.Sprintf("%s ", node.Group),
-      humanize.Bytes(node.Size),
+      fmt.Sprintf("%s  ", node.Group),
+      colorSize(node.Size, humanize.Bytes(node.Size)),
       node.Time.Month().String()[:3],
       fmt.Sprintf("%2d", node.Time.Day()),
       fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
@@ -63,6 +64,21 @@ func Long(nodes []node.Node) {
   }
 }
 
+func colorSize(sizeInt int, str string) string {
+  size := float64(sizeInt)
+  base := float64(1024)
+  // less than 1K
+  if size < base { return str }
+  // less than 10M
+  if size < math.Pow(base, 2) * 10 { return color.GreenString(str) }
+  // less than 100M
+  if size < math.Pow(base, 2) * 100 { return color.YellowString(str) }
+  // less than 1G
+  if size < math.Pow(base, 3) { return color.RedString(str) }
+  // above 1G
+  return color.New(color.FgRed, color.Bold).Sprint(str)
+}
+
 // strips ANSI color codes from string
 func strip(str string) string {
   return ansiRegex.ReplaceAllString(str, "")
@@ -72,7 +88,7 @@ func formatMode(mode string) string {
   runes := []rune(mode)
 
   return fmt.Sprintf(
-    "%s%s%s%s%s%s%s%s%s%s",
+    "%s%s%s%s%s%s%s%s%s%s ",
     colorize(runes[0], color.New(color.FgWhite, color.Bold)),
     colorize(runes[1], color.New(color.FgGreen)),
     colorize(runes[2], color.New(color.FgGreen)),
