@@ -21,18 +21,7 @@ func Long(nodes []node.Node) {
   // populate values
   values := make([][]string, len(nodes))
   for i := range values {
-    node := nodes[i]
-    values[i] = []string{
-      formatMode(node.Mode),
-      strconv.Itoa(node.LinkCount),
-      fmt.Sprintf("%s ", node.User),
-      fmt.Sprintf("%s  ", node.Group),
-      colorSize(node.Size, humanize.Bytes(node.Size)),
-      node.Time.Month().String()[:3],
-      fmt.Sprintf("%2d", node.Time.Day()),
-      fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
-      fmt.Sprintf(" %s", node.Name),
-    }
+    values[i] = extractValues(nodes[i])
   }
 
   // calculate lengths and max lengths
@@ -61,6 +50,20 @@ func Long(nodes []node.Node) {
       fmt.Printf("%s ", values[i][j])
     }
     fmt.Print("\n")
+  }
+}
+
+func extractValues(node node.Node) []string {
+  return []string{
+    formatMode(node.Mode),
+    strconv.Itoa(node.LinkCount),
+    fmt.Sprintf("%s ", node.User),
+    fmt.Sprintf("%s  ", node.Group),
+    colorSize(node.Size, humanize.Bytes(node.Size)),
+    node.Time.Month().String()[:3],
+    fmt.Sprintf("%2d", node.Time.Day()),
+    fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
+    fmt.Sprintf(" %s", node.Name),
   }
 }
 
