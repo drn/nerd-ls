@@ -2,6 +2,7 @@ package util
 
 import (
   "os"
+  "time"
   "regexp"
   "golang.org/x/crypto/ssh/terminal"
 )
@@ -21,4 +22,13 @@ func TerminalWidth() int {
   width, _, err := terminal.GetSize(int(os.Stdout.Fd()))
   if err == nil { return width }
   return 0
+}
+
+// IsToday - returns true if the input time is on today's date
+func IsToday(input time.Time) bool {
+  now := time.Now()
+  if now.Year() != input.Year() { return false }
+  if now.Month() != input.Month() { return false }
+  if now.Day() != input.Day() { return false }
+  return true
 }
