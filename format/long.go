@@ -80,7 +80,7 @@ func formatSize(sizeInt int) string {
 
 func formatTime(node node.Node) string {
   var baseColor *color.Color
-  if isToday(node.Time) {
+  if util.IsToday(node.Time) {
     baseColor = color.New(color.FgMagenta)
   } else {
     baseColor = color.New(color.FgCyan)
@@ -109,14 +109,6 @@ func formatTime(node node.Node) string {
     baseColor.Sprintf("%2d", node.Time.Day()),
     timeOrYear,
   )
-}
-
-func isToday(input time.Time) bool {
-  now := time.Now()
-  if now.Year() != input.Year() { return false }
-  if now.Month() != input.Month() { return false }
-  if now.Day() != input.Day() { return false }
-  return true
 }
 
 func formatMode(mode string) string {
