@@ -143,12 +143,7 @@ func colorize(mode rune, color *color.Color) string {
 }
 
 func formatName(node node.Node) string {
-  var baseColor *color.Color
-  if !node.IsDir {
-    baseColor = color.New(color.FgWhite)
-  } else {
-    baseColor = color.New(color.FgCyan, color.Bold)
-  }
+  baseColor := nodeColor(node)
 
   if node.Symlink == "" { return baseColor.Sprintf(" %s", node.Name) }
 

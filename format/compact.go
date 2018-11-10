@@ -3,7 +3,6 @@ package format
 import (
   "fmt"
   "strings"
-  "github.com/fatih/color"
   "github.com/drn/nerd-ls/node"
   "github.com/drn/nerd-ls/util"
 )
@@ -63,9 +62,4 @@ func compactDisplay(nodes []node.Node, width int) {
   if nodesLength % nodesPerRow != 0 {
     fmt.Println()
   }
-}
-
-func nodeColor(node node.Node) *color.Color {
-  if !node.IsDir { return color.New(color.FgWhite) }
-  return color.New(color.FgCyan, color.Bold)
 }
