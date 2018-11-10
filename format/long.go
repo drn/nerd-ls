@@ -4,18 +4,13 @@ import (
   "fmt"
   "math"
   "time"
-  "regexp"
   "strings"
   "strconv"
   "github.com/fatih/color"
+  "github.com/drn/nerd-ls/util"
   "github.com/drn/nerd-ls/node"
   "github.com/drn/nerd-ls/humanize"
 )
-
-const ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]" +
-             "*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=>" +
-             "<~]))"
-var ansiRegex = regexp.MustCompile(ansi)
 
 // Long - Format listing in long format.
 func Long(nodes []node.Node) {
@@ -31,7 +26,7 @@ func Long(nodes []node.Node) {
   for i := range values {
     lengths[i] = make([]int, len(values[i]))
     for j := range values[i] {
-      length := len(strip(values[i][j]))
+      length := len(util.StripColor(values[i][j]))
       lengths[i][j] = length
       if length > maxLengths[j] {
         maxLengths[j] = length
@@ -107,11 +102,6 @@ func formatTime(node node.Node) string {
     color.CyanString(fmt.Sprintf("%2d", node.Time.Day())),
     timeOrYear,
   )
-}
-
-// strips ANSI color codes from string
-func strip(str string) string {
-  return ansiRegex.ReplaceAllString(str, "")
 }
 
 func formatMode(mode string) string {
