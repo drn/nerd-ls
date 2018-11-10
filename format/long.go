@@ -7,6 +7,7 @@ import (
   "strconv"
   "github.com/fatih/color"
   "github.com/drn/nerd-ls/node"
+  "github.com/drn/nerd-ls/humanize"
 )
 
 const ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]" +
@@ -25,7 +26,7 @@ func Long(nodes []node.Node) {
       strconv.Itoa(node.LinkCount),
       fmt.Sprintf("%s ", node.User),
       fmt.Sprintf("%s ", node.Group),
-      strconv.Itoa(node.Size),
+      humanize.Bytes(node.Size),
       node.Time.Month().String()[:3],
       fmt.Sprintf("%2d", node.Time.Day()),
       fmt.Sprintf("%02d:%02d", node.Time.Hour(), node.Time.Minute()),
