@@ -57,6 +57,7 @@ func extractValues(node node.Node) []string {
     fmt.Sprintf("%s  ", node.Group),
     formatSize(node.Size),
     formatTime(node),
+    fmt.Sprintf(" %c", node.Icon),
     formatName(node),
   }
 }
@@ -142,10 +143,18 @@ func colorize(mode rune, color *color.Color) string {
 }
 
 func formatName(node node.Node) string {
-  if node.Symlink == "" { return fmt.Sprintf(" %s", node.Name) }
+  var baseColor *color.Color
+  if !node.IsDir {
+    baseColor = color.New(color.FgWhite)
+  } else {
+    baseColor = color.New(color.FgCyan, color.Bold)
+  }
+
+  if node.Symlink == "" { return baseColor.Sprintf(" %s", node.Name) }
+
   return fmt.Sprintf(
     " %s %s%s%s %s",
-    node.Name,
+    baseColor.Sprint(node.Name),
     color.New(color.FgMagenta, color.Bold).Sprint("➤"),
     color.New(color.FgBlue, color.Bold).Sprint("➤"),
     color.New(color.FgMagenta, color.Bold).Sprint("➤"),
