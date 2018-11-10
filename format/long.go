@@ -78,13 +78,19 @@ func formatSize(sizeInt int) string {
 }
 
 func formatTime(node node.Node) string {
-  var timeOrYear string
+  var baseColor *color.Color
+  if isToday(node.Time) {
+    baseColor = color.New(color.FgMagenta)
+  } else {
+    baseColor = color.New(color.FgCyan)
+  }
 
+  var timeOrYear string
   if time.Now().Year() == node.Time.Year() {
     timeOrYear = fmt.Sprintf(
       "%s:%s",
-      color.CyanString(fmt.Sprintf("%02d", node.Time.Hour())),
-      color.CyanString(fmt.Sprintf("%02d", node.Time.Minute())),
+      baseColor.Sprintf("%02d", node.Time.Hour()),
+      baseColor.Sprintf("%02d", node.Time.Minute()),
     )
   } else {
     timeOrYear = color.New(
@@ -98,10 +104,18 @@ func formatTime(node node.Node) string {
 
   return fmt.Sprintf(
     "%s %s %s",
-    color.CyanString(node.Time.Month().String()[:3]),
-    color.CyanString(fmt.Sprintf("%2d", node.Time.Day())),
+    baseColor.Sprint(node.Time.Month().String()[:3]),
+    baseColor.Sprintf("%2d", node.Time.Day()),
     timeOrYear,
   )
+}
+
+func isToday(input time.Time) bool {
+  now := time.Now()
+  if now.Year() != input.Year() { return false }
+  if now.Month() != input.Month() { return false }
+  if now.Day() != input.Day() { return false }
+  return true
 }
 
 func formatMode(mode string) string {
