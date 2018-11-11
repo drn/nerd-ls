@@ -20,14 +20,14 @@ jobs:
       - run:
           name: Compact
           command: |
-            nerd-ls
-            nerd-ls -a
-            nerd-ls -ai
-            nerd-ls -ai ~
+            echo "\nnerd-ls"; nerd-ls
+            echo "\nnerd-ls -a"; nerd-ls -a
+            echo "\nnerd-ls -ai"; nerd-ls -ai
+            echo "\nnerd-ls -ai /"; nerd-ls -ai /
       - run:
           name: Long
           command: |
-            nerd-ls -l
-            nerd-ls -al
-            nerd-ls -ail
-            nerd-ls -ail ~
+            echo "\nnerd-ls -l"; nerd-ls -l
+            echo "\nnerd-ls -al"; nerd-ls -al
+            echo "\nnerd-ls -ail"; nerd-ls -ail
+            echo "\nnerd-ls -ail /"; nerd-ls -ail /
