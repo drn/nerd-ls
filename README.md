@@ -8,11 +8,6 @@ A golang LS implementation that provides color and icons to `ls`.
 
 <p align="center"><img src="screenshot.png" width="600"></p>
 
-## In Development
-
-This project is in active development and not yet fully featured. Feel free to
-check it out as development progresses.
-
 ## Install
 
 Requires a
