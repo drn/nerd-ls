@@ -8,13 +8,13 @@ import (
 )
 
 // Compact - Format listing in compact format.
-func Compact(nodes []node.Node) {
+func Compact(nodes []node.Node, options map[string]bool) {
   width := util.TerminalWidth()
 
   if width == 0 {
     pipedDisplay(nodes)
   } else {
-    compactDisplay(nodes, width)
+    compactDisplay(nodes, width, options)
   }
 }
 
@@ -24,7 +24,7 @@ func pipedDisplay(nodes []node.Node) {
   }
 }
 
-func compactDisplay(nodes []node.Node, width int) {
+func compactDisplay(nodes []node.Node, width int, options map[string]bool) {
   // determine max node length
   maxLength := 0
   for _, node := range nodes {
@@ -32,7 +32,8 @@ func compactDisplay(nodes []node.Node, width int) {
     if maxLength < length { maxLength = length }
   }
 
-  lengthPerNode := maxLength + 5 // name + icon + 4 spaces
+  lengthPerNode := maxLength + 2 // name + 2 spaces
+  if options["icon"] { lengthPerNode += 3 } // icon + 2 spaces
   nodesPerRow := width / lengthPerNode
   nodesLength := len(nodes)
 
@@ -40,11 +41,15 @@ func compactDisplay(nodes []node.Node, width int) {
     node := nodes[i]
 
     // print node
-    fmt.Printf(
-      "%c  %s",
-      node.Icon,
-      nodeColor(node).Sprint(node.Name),
-    )
+    if !options["icon"] {
+      fmt.Print(nodeColor(node).Sprint(node.Name))
+    } else {
+      fmt.Printf(
+        "%c  %s",
+        node.Icon,
+        nodeColor(node).Sprint(node.Name),
+      )
+    }
 
     if (i + 1) % nodesPerRow == 0 {
       // start a new row

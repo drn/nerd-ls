@@ -13,13 +13,13 @@ import (
 )
 
 // Long - Format listing in long format.
-func Long(nodes []node.Node) {
+func Long(nodes []node.Node, options map[string]bool) {
   displaySummary(nodes)
 
   // populate values
   values := make([][]string, len(nodes))
   for i := range values {
-    values[i] = extractValues(nodes[i])
+    values[i] = extractValues(nodes[i], options)
   }
 
   // calculate lengths and max lengths
@@ -76,7 +76,19 @@ func displaySummary(nodes []node.Node) {
   )
 }
 
-func extractValues(node node.Node) []string {
+func extractValues(node node.Node, options map[string]bool) []string {
+  if options["icon"] {
+    return []string{
+      formatMode(node.Mode),
+      strconv.Itoa(node.LinkCount),
+      fmt.Sprintf("%s ", node.User),
+      fmt.Sprintf("%s  ", node.Group),
+      formatSize(node.Size),
+      formatTime(node),
+      fmt.Sprintf(" %c", node.Icon),
+      formatName(node),
+    }
+  }
   return []string{
     formatMode(node.Mode),
     strconv.Itoa(node.LinkCount),
@@ -84,7 +96,6 @@ func extractValues(node node.Node) []string {
     fmt.Sprintf("%s  ", node.Group),
     formatSize(node.Size),
     formatTime(node),
-    fmt.Sprintf(" %c", node.Icon),
     formatName(node),
   }
 }

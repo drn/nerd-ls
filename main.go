@@ -11,6 +11,7 @@ import (
 var opts struct {
   All bool `short:"a" long:"all" description:"Include directory entries whose names begin with a dot (.)."`
   Long bool `short:"l" long:"long" description:"List in long format."`
+  Icon bool `short:"i" long:"icon" description:"Display nerd-font icons"`
 }
 
 func main() {
@@ -33,9 +34,10 @@ func main() {
     },
   )
 
+  formatOptions := map[string]bool{"icon": opts.Icon}
   if opts.Long {
-    format.Long(nodes)
+    format.Long(nodes, formatOptions)
   } else {
-    format.Compact(nodes)
+    format.Compact(nodes, formatOptions)
   }
 }
