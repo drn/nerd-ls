@@ -145,6 +145,6 @@ func formatName(node node.Node) string {
     color.New(color.FgMagenta, color.Bold).Sprint("➤"),
     color.New(color.FgBlue, color.Bold).Sprint("➤"),
     color.New(color.FgMagenta, color.Bold).Sprint("➤"),
-    node.Symlink,
+    util.ShortenPath(node.Symlink),
   )
 }
