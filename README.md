@@ -8,18 +8,38 @@ A golang LS implementation that provides color and icons to `ls`.
 
 <p align="center"><img src="screenshot.png" width="600"></p>
 
-## Install
+## Usage
 
-Requires a
-[nerd-font patched font](https://github.com/ryanoasis/nerd-fonts#patched-fonts)
-for the custom icons. My preferred font is a patched Menlo font that you can
-find
-[here](https://github.com/drn/dots/blob/master/lib/fonts/Menlo%20Regular%20Nerd%20Font%20Complete.otf).
+Nerd LS is a drop-in replacement for the standard ls command.
+
+```
+Usage:
+  nerd-ls [OPTIONS]
+
+Application Options:
+  -a, --all   Include directory entries whose names begin with a dot (.)
+  -l, --long  List in long format
+  -i, --icon  Display nerd-font icons
+
+Help Options:
+  -h, --help  Show this help message
+```
+
+## Install
 
 ```
 go get github.com/drn/nerd-ls
-alias ls=nerd-ls
+alias ls=nerd-ls # optional
 ```
+
+In order to have icons included with the -i/--icon flag, a patched
+[Nerd Font](http://nerdfonts.com/)
+is required.
+
+Font Options:
+
+* [Patched Font Directory](https://github.com/ryanoasis/nerd-fonts#patched-fonts)
+* [Menlo Regular Nerd Font Complete](https://github.com/drn/dots/blob/master/lib/fonts/Menlo%20Regular%20Nerd%20Font%20Complete.otf)
 
 ## Benchmarks
 
