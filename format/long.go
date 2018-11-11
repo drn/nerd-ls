@@ -14,6 +14,8 @@ import (
 
 // Long - Format listing in long format.
 func Long(nodes []node.Node) {
+  displaySummary(nodes)
+
   // populate values
   values := make([][]string, len(nodes))
   for i := range values {
@@ -47,6 +49,31 @@ func Long(nodes []node.Node) {
     }
     fmt.Print("\n")
   }
+}
+
+func displaySummary(nodes []node.Node) {
+  dirCount := 0
+  dirSize := 0
+  fileCount := 0
+  fileSize := 0
+  for _, node := range nodes {
+    if node.IsDir {
+      dirCount++
+      dirSize += node.Size
+    } else {
+      fileCount++
+      fileSize += node.Size
+    }
+  }
+  fmt.Printf(
+    "%s (%s @ %s) & %s (%s @ %s)\n",
+    color.New(color.FgWhite, color.Bold).Sprint("files"),
+    color.New(color.FgMagenta, color.Bold).Sprint(fileCount),
+    formatSize(fileSize),
+    color.New(color.FgWhite, color.Bold).Sprint("directories"),
+    color.New(color.FgMagenta, color.Bold).Sprint(dirCount),
+    formatSize(dirSize),
+  )
 }
 
 func extractValues(node node.Node) []string {
