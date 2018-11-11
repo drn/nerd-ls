@@ -23,9 +23,11 @@ jobs:
             nerd-ls
             nerd-ls -a
             nerd-ls -ai
+            nerd-ls -ai ~
       - run:
           name: Long
           command: |
             nerd-ls -l
             nerd-ls -al
             nerd-ls -ail
+            nerd-ls -ail ~
