@@ -35,8 +35,6 @@ func New(file os.FileInfo) Node {
 
   nlink := int(stat.Nlink)
 
-  time := stat.Ctimespec
-
   symlink := ""
   if file.Mode() & os.ModeSymlink == os.ModeSymlink {
     symlink, _ = os.Readlink(file.Name())
@@ -51,13 +49,9 @@ func New(file os.FileInfo) Node {
     int(file.Size()),
     fileUser.Username,
     fileGroup.Name,
-    timespecToTime(time),
+    file.ModTime(),
     symlink,
   }
-}
-
-func timespecToTime(ts syscall.Timespec) time.Time {
-  return time.Unix(int64(ts.Sec), int64(ts.Nsec))
 }
 
 func name(file os.FileInfo) string {
