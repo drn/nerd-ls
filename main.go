@@ -1,40 +1,33 @@
 package main
 
 import (
-  "flag"
+  "os"
   "github.com/drn/nerd-ls/list"
   "github.com/drn/nerd-ls/format"
+  "github.com/jessevdk/go-flags"
 )
 
-var all = flag.Bool(
-  "a",
-  false,
-  "Include directory entries whose names begin with a dot (.).",
-)
-
-var long = flag.Bool(
-  "l",
-  false,
-  "(The lowercase letter ``ell''.)  List in long format.  (See " +
-  "below.)  If the output is to a terminal, a total sum for all the " +
-  "file sizes is output on a line before the long listing.",
-)
+var opts struct {
+  All bool `short:"a" long:"all" description:"Include directory entries whose names begin with a dot (.)."`
+  Long bool `short:"l" long:"long" description:"List in long format."`
+}
 
 func main() {
-  flag.Parse()
+  args, err := flags.ParseArgs(&opts, os.Args)
+  if flags.WroteHelp(err) { return }
 
   dir := "."
-  if len(flag.Args()) >= 1 { dir = flag.Args()[0] }
+  if len(args) > 1 { dir = args[1] }
 
   nodes := list.Fetch(
     dir,
     map[string]bool{
-      "all": *all,
-      "long": *long,
+      "all": opts.All,
+      "long": opts.Long,
     },
   )
 
-  if *long {
+  if opts.Long {
     format.Long(nodes)
   } else {
     format.Compact(nodes)
