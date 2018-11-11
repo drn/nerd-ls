@@ -6,6 +6,7 @@ import (
 )
 
 func nodeColor(node node.Node) *color.Color {
+  if node.Symlink != "" { return color.New(color.FgMagenta) }
   if !node.IsDir { return color.New(color.FgWhite) }
   return color.New(color.FgCyan, color.Bold)
 }
