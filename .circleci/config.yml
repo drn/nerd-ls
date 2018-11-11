@@ -21,15 +21,11 @@ jobs:
           name: Compact
           command: |
             nerd-ls
-      - run:
-          name: Compact, All
-          command: |
             nerd-ls -a
+            nerd-ls -ai
       - run:
           name: Long
           command: |
             nerd-ls -l
-      - run:
-          name: Long, All
-          command: |
-            nerd-ls -la
+            nerd-ls -al
+            nerd-ls -ail
