@@ -43,6 +43,10 @@ Font Options:
 
 ## Benchmarks
 
+<details>
+<summary>click for details</summary>
+<p>
+
 ls
 ```
 ❯ time (repeat 100 { ls })
@@ -72,6 +76,9 @@ time ( repeat 100 { ./lsicons.py })
 ❯ time (repeat 100 { colorls })
 24.74s user 11.75s system 96% cpu 37.846 total
 ```
+
+</p>
+</details>
 
 ## Credit
 
