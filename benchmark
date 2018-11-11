@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+time (repeat 100 { ls >/dev/null })
+time (repeat 100 { nerd-ls >/dev/null })
+# brew install exa
+time (repeat 100 { exa >/dev/null })
+# gem install colorls
+time (repeat 100 { colorls >/dev/null })
