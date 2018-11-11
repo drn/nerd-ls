@@ -2,6 +2,7 @@ package main
 
 import (
   "os"
+  "fmt"
   "github.com/drn/nerd-ls/list"
   "github.com/drn/nerd-ls/format"
   "github.com/jessevdk/go-flags"
@@ -15,6 +16,11 @@ var opts struct {
 func main() {
   args, err := flags.ParseArgs(&opts, os.Args)
   if flags.WroteHelp(err) { return }
+  if err != nil {
+    fmt.Println()
+    flags.ParseArgs(&opts, []string{"--help"})
+    os.Exit(1)
+  }
 
   dir := "."
   if len(args) > 1 { dir = args[1] }
