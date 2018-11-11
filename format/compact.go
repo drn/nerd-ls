@@ -20,7 +20,7 @@ func Compact(nodes []node.Node, options map[string]bool) {
 
 func pipedDisplay(nodes []node.Node) {
   for _, node := range nodes {
-    fmt.Println(node.Name)
+    fmt.Println(nodeColor(node).Sprint(node.Name))
   }
 }
 
