@@ -3,9 +3,10 @@ package main
 import (
   "os"
   "fmt"
+  "github.com/fatih/color"
+  "github.com/jessevdk/go-flags"
   "github.com/drn/nerd-ls/list"
   "github.com/drn/nerd-ls/format"
-  "github.com/jessevdk/go-flags"
 )
 
 var opts struct {
@@ -23,21 +24,35 @@ func main() {
     os.Exit(1)
   }
 
-  dir := "."
-  if len(args) > 1 { dir = args[1] }
-
-  nodes := list.Fetch(
-    dir,
-    map[string]bool{
-      "all": opts.All,
-      "long": opts.Long,
-    },
-  )
-
-  formatOptions := map[string]bool{"icon": opts.Icon}
-  if opts.Long {
-    format.Long(nodes, formatOptions)
+  var dirs []string
+  if len(args) == 1 {
+    dirs = []string{"."}
   } else {
-    format.Compact(nodes, formatOptions)
+    dirs = args[1:]
+  }
+
+  for i, dir := range dirs {
+    if len(dirs) > 1 {
+      if i > 0 { fmt.Println() }
+      fmt.Printf(
+        "%s:\n",
+        color.New(color.FgMagenta, color.Bold).Sprint(dir),
+      )
+    }
+
+    nodes := list.Fetch(
+      dir,
+      map[string]bool{
+        "all": opts.All,
+        "long": opts.Long,
+      },
+    )
+
+    formatOptions := map[string]bool{"icon": opts.Icon}
+    if opts.Long {
+      format.Long(nodes, formatOptions)
+    } else {
+      format.Compact(nodes, formatOptions)
+    }
   }
 }
