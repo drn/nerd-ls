@@ -16,6 +16,8 @@ func Display(address string, options map[string]interface{}) {
 
   if options["long"].(bool) {
     Long(nodes, options)
+  } else if options["tree"].(bool) {
+    Tree(nodes, options)
   } else {
     Compact(nodes, options)
   }
