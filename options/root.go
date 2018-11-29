@@ -10,13 +10,13 @@ type Options struct {
 // Parse - Converts flags to string -> int map
 func Parse(opts Options) map[string]int {
   return map[string]int{
-    "all": boolToInt(opts.All),
-    "long": boolToInt(opts.Long),
-    "icon": boolToInt(opts.Icon),
+    "all": btoi(opts.All),
+    "long": btoi(opts.Long),
+    "icon": btoi(opts.Icon),
   }
 }
 
-func boolToInt(boolean bool) int {
+func btoi(boolean bool) int {
   if boolean { return 1 }
   return 0
 }
