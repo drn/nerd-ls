@@ -5,33 +5,19 @@ import (
   "github.com/fatih/color"
   "github.com/drn/nerd-ls/node"
   "github.com/drn/nerd-ls/list"
-  "github.com/drn/nerd-ls/options"
 )
 
 var errorRegex = regexp.MustCompile(`.*\.orig$`)
 var ignoreRegex = regexp.MustCompile(`^.DS_Store$`)
 
 // Display - Runs display logic based on input address and options
-func Display(address string, opts options.Options) {
-  nodes := list.Fetch(
-    address,
-    map[string]bool{
-      "all": opts.All,
-      "long": opts.Long,
-    },
-  )
+func Display(address string, options map[string]int) {
+  nodes := list.Fetch(address, options)
 
-  if opts.Long {
-    Long(nodes, formatOptions(opts))
+  if options["long"] == 1 {
+    Long(nodes, options)
   } else {
-    Compact(nodes, formatOptions(opts))
-  }
-}
-
-func formatOptions(opts options.Options) map[string]int {
-  icon := 0; if opts.Icon { icon = 1 }
-  return map[string]int{
-    "icon": icon,
+    Compact(nodes, options)
   }
 }
 

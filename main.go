@@ -36,6 +36,6 @@ func main() {
       )
     }
 
-    format.Display(dir, opts)
+    format.Display(dir, options.Parse(opts))
   }
 }
