@@ -13,7 +13,7 @@ import (
 )
 
 // Long - Format listing in long format.
-func Long(nodes []node.Node, options map[string]bool) {
+func Long(nodes []node.Node, options map[string]int) {
   displaySummary(nodes)
 
   // populate values
@@ -76,8 +76,8 @@ func displaySummary(nodes []node.Node) {
   )
 }
 
-func extractValues(node node.Node, options map[string]bool) []string {
-  if options["icon"] {
+func extractValues(node node.Node, options map[string]int) []string {
+  if options["icon"] == 1 {
     return []string{
       formatMode(node.Mode),
       strconv.Itoa(node.LinkCount),

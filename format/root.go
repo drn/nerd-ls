@@ -21,11 +21,17 @@ func Display(address string, opts options.Options) {
     },
   )
 
-  formatOptions := map[string]bool{"icon": opts.Icon}
   if opts.Long {
-    Long(nodes, formatOptions)
+    Long(nodes, formatOptions(opts))
   } else {
-    Compact(nodes, formatOptions)
+    Compact(nodes, formatOptions(opts))
+  }
+}
+
+func formatOptions(opts options.Options) map[string]int {
+  icon := 0; if opts.Icon { icon = 1 }
+  return map[string]int{
+    "icon": icon,
   }
 }
 
