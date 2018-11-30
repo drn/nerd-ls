@@ -7,16 +7,11 @@ type Options struct {
   Icon bool `short:"i" long:"icon" description:"Display nerd-font icons"`
 }
 
-// Parse - Converts flags to string -> int map
-func Parse(opts Options) map[string]int {
-  return map[string]int{
-    "all": btoi(opts.All),
-    "long": btoi(opts.Long),
-    "icon": btoi(opts.Icon),
+// Parse - Converts flags to string -> interace{} map
+func Parse(opts Options) map[string]interface{} {
+  return map[string]interface{}{
+    "all": opts.All,
+    "long": opts.Long,
+    "icon": opts.Icon,
   }
-}
-
-func btoi(boolean bool) int {
-  if boolean { return 1 }
-  return 0
 }

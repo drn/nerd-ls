@@ -8,7 +8,7 @@ import (
 )
 
 // Compact - Format listing in compact format.
-func Compact(nodes []node.Node, options map[string]int) {
+func Compact(nodes []node.Node, options map[string]interface{}) {
   width := util.TerminalWidth()
 
   if width == 0 {
@@ -24,7 +24,7 @@ func pipedDisplay(nodes []node.Node) {
   }
 }
 
-func compactDisplay(nodes []node.Node, width int, options map[string]int) {
+func compactDisplay(nodes []node.Node, width int, options map[string]interface{}) {
   // determine max node length
   maxLength := 0
   for _, node := range nodes {
@@ -33,7 +33,7 @@ func compactDisplay(nodes []node.Node, width int, options map[string]int) {
   }
 
   lengthPerNode := maxLength + 2 // name + 2 spaces
-  if options["icon"] == 1 { lengthPerNode += 3 } // icon + 2 spaces
+  if options["icon"].(bool) { lengthPerNode += 3 } // icon + 2 spaces
   nodesPerRow := width / lengthPerNode
   nodesLength := len(nodes)
 
@@ -41,7 +41,7 @@ func compactDisplay(nodes []node.Node, width int, options map[string]int) {
     node := nodes[i]
 
     // print node
-    if options["icon"] == 0 {
+    if !options["icon"].(bool) {
       fmt.Print(nodeColor(node).Sprint(node.Name))
     } else {
       fmt.Printf(

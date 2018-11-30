@@ -11,10 +11,10 @@ var errorRegex = regexp.MustCompile(`.*\.orig$`)
 var ignoreRegex = regexp.MustCompile(`^.DS_Store$`)
 
 // Display - Runs display logic based on input address and options
-func Display(address string, options map[string]int) {
+func Display(address string, options map[string]interface{}) {
   nodes := list.Fetch(address, options)
 
-  if options["long"] == 1 {
+  if options["long"].(bool) {
     Long(nodes, options)
   } else {
     Compact(nodes, options)
