@@ -88,3 +88,7 @@ implementation guidance. Thank you!!
 ## References
 
 - [nerdfonts.com](http://nerdfonts.com/#cheat-sheet)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md)
