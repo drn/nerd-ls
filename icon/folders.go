@@ -6,29 +6,33 @@ package icon
 
 // ForFolder - Return rune icon corresponding to input folder name
 func ForFolder(name string) rune {
-  alias := folderAliases[name]
-  if alias != "" { name = alias }
-  icon := folders[name]
-  if icon == 0 { return folderDefault }
-  return icon
+	alias := folderAliases[name]
+	if alias != "" {
+		name = alias
+	}
+	icon := folders[name]
+	if icon == 0 {
+		return folderDefault
+	}
+	return icon
 }
 
 var folderDefault = '\uf115'
 
 var folderAliases = map[string]string{
-  "bin":     "config",
-  "include": "config",
+	"bin":     "config",
+	"include": "config",
 }
 
-var folders = map[string]rune {
-  ".atom":        '\ue764',
-  ".git":         '\ue5fb',
-  ".github":      '\uf408',
-  ".rvm":         '\ue21e',
-  ".Trash":       '\uf1f8',
-  ".vscode":      '\ue70c',
-  "config":       '\ue5fc',
-  "hidden":       '\uf023',
-  "lib":          '\uf121',
-  "node_modules": '\ue718',
+var folders = map[string]rune{
+	".atom":        '\ue764',
+	".git":         '\ue5fb',
+	".github":      '\uf408',
+	".rvm":         '\ue21e',
+	".Trash":       '\uf1f8',
+	".vscode":      '\ue70c',
+	"config":       '\ue5fc',
+	"hidden":       '\uf023',
+	"lib":          '\uf121',
+	"node_modules": '\ue718',
 }
