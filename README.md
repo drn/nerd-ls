@@ -3,6 +3,7 @@
 A golang LS implementation that provides color and icons to `ls`.
 
 [![CircleCI](https://circleci.com/gh/drn/nerd-ls.svg?style=svg)](https://circleci.com/gh/drn/nerd-ls)
+[![Go Report Card](https://goreportcard.com/badge/github.com/drn/nerd-ls)](https://goreportcard.com/report/github.com/drn/nerd-ls)
 
 * * *
 
