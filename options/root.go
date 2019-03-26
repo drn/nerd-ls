@@ -8,7 +8,7 @@ type Options struct {
 	Tree bool `short:"T" long:"tree" description:"Recurse into directories as a tree"`
 }
 
-// Parse - Converts flags to string -> interace{} map
+// Parse - Converts flags to string -> interface{} map
 func Parse(opts Options) map[string]interface{} {
 	return map[string]interface{}{
 		"all":  opts.All,
