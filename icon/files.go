@@ -127,7 +127,7 @@ var files = map[string]rune{
 	"ai":           '\ue7b4',
 	"android":      '\ue70e',
 	"apple":        '\uf179',
-	"audio":        '\uf001',
+	"audio":        '\ufc58',
 	"avro":         '\ue60b',
 	"c":            '\ue61e',
 	"clj":          '\ue768',
