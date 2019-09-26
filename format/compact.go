@@ -39,6 +39,9 @@ func compactDisplay(nodes []node.Node, width int, options map[string]interface{}
 		lengthPerNode += 3
 	} // icon + 2 spaces
 	nodesPerRow := width / lengthPerNode
+	if nodesPerRow == 0 {
+		nodesPerRow = 1
+	}
 	nodesLength := len(nodes)
 
 	for i := 0; i < nodesLength; i++ {
