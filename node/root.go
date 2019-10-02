@@ -5,6 +5,7 @@ import (
 	"github.com/drn/nerd-ls/icon"
 	"os"
 	"os/user"
+	"path/filepath"
 	"syscall"
 	"time"
 )
@@ -58,7 +59,14 @@ func name(file os.FileInfo) string {
 	if !file.IsDir() {
 		return file.Name()
 	}
-	return fmt.Sprintf("%s/", file.Name())
+	name := fmt.Sprintf("%s/", file.Name())
+	// inject name for current and parent directories
+	// TODO: properly inject names for non-current directories
+	if file.Name() == "." || file.Name() == ".." {
+		fullpath, _ := filepath.Abs(file.Name())
+		name = fmt.Sprintf("%s [%s]", name, filepath.Base(fullpath))
+	}
+	return name
 }
 
 func fetchIcon(file os.FileInfo) rune {
