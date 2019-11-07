@@ -40,7 +40,7 @@ is required.
 Font Options:
 
 * [Patched Font Directory](https://github.com/ryanoasis/nerd-fonts#patched-fonts)
-* [Menlo Regular Nerd Font Complete](https://github.com/drn/dots/blob/master/lib/fonts/Menlo%20Regular%20Nerd%20Font%20Complete.otf)
+* [Menlo Regular Nerd Font Complete](https://github.com/drn/dots/blob/master/fonts/Menlo%20Regular%20Nerd%20Font%20Complete.otf)
 
 ## Benchmarks
 
