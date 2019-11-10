@@ -50,26 +50,34 @@ Font Options:
 
 ls
 ```
-❯ time (repeat 100 { ls })
-0.09s user 0.13s system 90% cpu 0.240 total
+❯ hyperfine "ls" --warmup 5
+Benchmark #1: ls
+  Time (mean ± σ):       1.6 ms ±   0.5 ms    [User: 0.6 ms, System: 0.8 ms]
+  Range (min … max):     1.0 ms …   3.3 ms    572 runs
 ```
 
 [nerd-ls](https://github.com/drn/nerd-ls)
 ```
-❯ time (repeat 100 { nerd-ls })
-0.23s user 0.23s system 77% cpu 0.599 total
+❯ hyperfine "nerd-ls" --warmup 5
+Benchmark #1: nerd-ls
+  Time (mean ± σ):       6.0 ms ±   0.7 ms    [User: 2.4 ms, System: 2.3 ms]
+  Range (min … max):     5.0 ms …   8.0 ms    365 runs
 ```
 
 [exa](https://github.com/ogham/exa)
 ```
-❯ time (repeat 100 { exa })
-0.57s user 0.38s system 91% cpu 1.035 total
+❯ hyperfine "exa" --warmup 5
+Benchmark #1: exa
+  Time (mean ± σ):       8.5 ms ±   0.7 ms    [User: 4.8 ms, System: 3.0 ms]
+  Range (min … max):     7.6 ms …  11.2 ms    252 runs
 ```
 
 [colorls](https://github.com/athityakumar/colorls)
 ```
-❯ time (repeat 100 { colorls })
-23.72s user 10.21s system 95% cpu 35.390 total
+❯ hyperfine "colorls" --warmup 5
+Benchmark #1: colorls
+  Time (mean ± σ):     387.6 ms ±   3.4 ms    [User: 274.7 ms, System: 103.3 ms]
+  Range (min … max):   381.6 ms … 391.0 ms    10 runs
 ```
 
 </p>
