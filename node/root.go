@@ -32,7 +32,15 @@ func New(file os.FileInfo) Node {
 	gid := fmt.Sprint(stat.Gid)
 
 	fileUser, _ := user.LookupId(uid)
+	fileUserName := uid
+	if fileUser != nil {
+		fileUserName = fileUser.Username
+	}
 	fileGroup, _ := user.LookupGroupId(gid)
+	fileGroupName := gid
+	if fileGroup != nil {
+		fileGroupName = fileGroup.Name
+	}
 
 	nlink := int(stat.Nlink)
 
@@ -48,8 +56,8 @@ func New(file os.FileInfo) Node {
 		nlink,
 		file.Mode().String(),
 		int(file.Size()),
-		fileUser.Username,
-		fileGroup.Name,
+		fileUserName,
+		fileGroupName,
 		file.ModTime(),
 		symlink,
 	}
