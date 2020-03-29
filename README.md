@@ -1,6 +1,7 @@
 # Nerd LS
 
-A golang LS implementation that provides color and icons to `ls`.
+Nerd LS is a drop-in replacement for the standard ls command, providing color
+and icons while staying blazing fast.
 
 [![CircleCI](https://circleci.com/gh/drn/nerd-ls.svg?style=svg)](https://circleci.com/gh/drn/nerd-ls)
 [![Go Report Card](https://goreportcard.com/badge/github.com/drn/nerd-ls)](https://goreportcard.com/report/github.com/drn/nerd-ls)
@@ -10,8 +11,6 @@ A golang LS implementation that provides color and icons to `ls`.
 <p align="center"><img src="screenshot.png" width="600"></p>
 
 ## Usage
-
-Nerd LS is a drop-in replacement for the standard ls command.
 
 ```
 Usage:
@@ -29,7 +28,7 @@ Help Options:
 ## Install
 
 ```
-go get github.com/drn/nerd-ls
+brew install drn/homebrew-tap/nerd-ls
 alias ls=nerd-ls # optional
 ```
 
