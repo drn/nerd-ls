@@ -1,7 +1,7 @@
 # Nerd LS
 
-Nerd LS is a drop-in replacement for the standard ls command, providing color
-and icons while staying blazing fast.
+Nerd LS is a drop-in replacement for `ls`, providing color and icons while
+staying blazing fast.
 
 [![CircleCI](https://circleci.com/gh/drn/nerd-ls.svg?style=svg)](https://circleci.com/gh/drn/nerd-ls)
 [![Go Report Card](https://goreportcard.com/badge/github.com/drn/nerd-ls)](https://goreportcard.com/report/github.com/drn/nerd-ls)
