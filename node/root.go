@@ -6,9 +6,12 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"syscall"
 	"time"
 )
+
+var whitespaceRegex = regexp.MustCompile(`\r|\r?\n`)
 
 // Node - Contains all info necessary to render file or directory
 type Node struct {
@@ -64,14 +67,16 @@ func New(file os.FileInfo) Node {
 }
 
 func name(file os.FileInfo) string {
+	baseName := file.Name()
+	baseName = whitespaceRegex.ReplaceAllString(baseName, "?")
 	if !file.IsDir() {
-		return file.Name()
+		return baseName
 	}
-	name := fmt.Sprintf("%s/", file.Name())
+	name := fmt.Sprintf("%s/", baseName)
 	// inject name for current and parent directories
 	// TODO: properly inject names for non-current directories
-	if file.Name() == "." || file.Name() == ".." {
-		fullpath, _ := filepath.Abs(file.Name())
+	if baseName == "." || baseName == ".." {
+		fullpath, _ := filepath.Abs(baseName)
 		name = fmt.Sprintf("%s [%s]", name, filepath.Base(fullpath))
 	}
 	return name
