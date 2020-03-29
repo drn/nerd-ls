@@ -28,7 +28,7 @@ func Long(nodes []node.Node, options map[string]interface{}) {
 	for i := range values {
 		lengths[i] = make([]int, len(values[i]))
 		for j := range values[i] {
-			length := len(util.StripColor(values[i][j]))
+			length := len([]rune(util.StripColor(values[i][j])))
 			lengths[i][j] = length
 			if length > maxLengths[j] {
 				maxLengths[j] = length

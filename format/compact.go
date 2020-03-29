@@ -28,7 +28,7 @@ func compactDisplay(nodes []node.Node, width int, options map[string]interface{}
 	// determine max node length
 	maxLength := 0
 	for _, node := range nodes {
-		length := len(node.Name)
+		length := len([]rune(node.Name))
 		if maxLength < length {
 			maxLength = length
 		}
@@ -65,7 +65,7 @@ func compactDisplay(nodes []node.Node, width int, options map[string]interface{}
 			// print right padding
 			fmt.Printf(
 				"  %s",
-				strings.Repeat(" ", maxLength-len(node.Name)),
+				strings.Repeat(" ", maxLength-len([]rune(node.Name))),
 			)
 		}
 	}
