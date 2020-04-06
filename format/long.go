@@ -79,7 +79,7 @@ func displaySummary(nodes []node.Node) {
 func extractValues(node node.Node, options map[string]interface{}) []string {
 	if options["icon"].(bool) {
 		return []string{
-			formatMode(node.Mode),
+			formatMode(node.Mode.String()),
 			strconv.Itoa(node.LinkCount),
 			fmt.Sprintf("%s ", node.User),
 			fmt.Sprintf("%s  ", node.Group),
@@ -90,7 +90,7 @@ func extractValues(node node.Node, options map[string]interface{}) []string {
 		}
 	}
 	return []string{
-		formatMode(node.Mode),
+		formatMode(node.Mode.String()),
 		strconv.Itoa(node.LinkCount),
 		fmt.Sprintf("%s ", node.User),
 		fmt.Sprintf("%s  ", node.Group),

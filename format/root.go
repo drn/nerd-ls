@@ -30,9 +30,15 @@ func nodeColor(node node.Node) *color.Color {
 	if node.IsDir {
 		return color.New(color.FgCyan, color.Bold)
 	}
+	// executable
+	if node.Mode&0111 != 0 {
+		return color.New(color.FgRed)
+	}
+	// *.DS_Store
 	if ignoreRegex.MatchString(node.Name) {
 		return color.New(color.FgBlack, color.Bold)
 	}
+	// *.orig
 	if errorRegex.MatchString(node.Name) {
 		return color.New(color.FgRed)
 	}

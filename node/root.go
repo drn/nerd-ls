@@ -19,7 +19,7 @@ type Node struct {
 	IsDir     bool
 	Name      string
 	LinkCount int
-	Mode      string
+	Mode      os.FileMode
 	Size      int
 	User      string
 	Group     string
@@ -57,7 +57,7 @@ func New(file os.FileInfo) Node {
 		file.IsDir(),
 		name(file),
 		nlink,
-		file.Mode().String(),
+		file.Mode(),
 		int(file.Size()),
 		fileUserName,
 		fileGroupName,
