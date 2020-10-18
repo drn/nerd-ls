@@ -55,7 +55,7 @@ func New(dir string, file os.FileInfo) Node {
 	return Node{
 		fetchIcon(file),
 		file.IsDir(),
-		name(file),
+		name(dir, file),
 		nlink,
 		file.Mode(),
 		int(file.Size()),
@@ -66,7 +66,7 @@ func New(dir string, file os.FileInfo) Node {
 	}
 }
 
-func name(file os.FileInfo) string {
+func name(dir string, file os.FileInfo) string {
 	baseName := file.Name()
 	baseName = whitespaceRegex.ReplaceAllString(baseName, "?")
 	if !file.IsDir() {
@@ -74,9 +74,8 @@ func name(file os.FileInfo) string {
 	}
 	name := fmt.Sprintf("%s/", baseName)
 	// inject name for current and parent directories
-	// TODO: properly inject names for non-current directories
 	if baseName == "." || baseName == ".." {
-		fullpath, _ := filepath.Abs(baseName)
+		fullpath, _ := filepath.Abs(fmt.Sprintf("%s/%s", dir, baseName))
 		name = fmt.Sprintf("%s [%s]", name, filepath.Base(fullpath))
 	}
 	return name
