@@ -3,7 +3,9 @@ jobs:
   build:
     working_directory: /go/src/github.com/drn/nerd-ls
     docker:
-      - image: circleci/golang:1.11.2
+      - image: circleci/golang:1.15.3
+        environment:
+          GO111MODULE: "on"
     steps:
       - checkout
       - run: go get ./...
