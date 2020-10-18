@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 )
 
 // Fetch - Fetch List representing current directory
@@ -12,6 +13,12 @@ func Fetch(dir string, options map[string]interface{}) []node.Node {
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if options["size-sort"].(bool) {
+		sort.Slice(files, func(i, j int) bool {
+			return files[i].Size() > files[j].Size()
+		})
 	}
 
 	nodes := make([]node.Node, len(files)+2)
