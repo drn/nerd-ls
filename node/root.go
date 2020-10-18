@@ -28,7 +28,7 @@ type Node struct {
 }
 
 // New - Initializes Node with os.FileInfo
-func New(file os.FileInfo) Node {
+func New(dir string, file os.FileInfo) Node {
 	stat := file.Sys().(*syscall.Stat_t)
 
 	uid := fmt.Sprint(stat.Uid)
@@ -49,7 +49,7 @@ func New(file os.FileInfo) Node {
 
 	symlink := ""
 	if file.Mode()&os.ModeSymlink == os.ModeSymlink {
-		symlink, _ = os.Readlink(file.Name())
+		symlink, _ = os.Readlink(fmt.Sprintf("%s/%s", dir, file.Name()))
 	}
 
 	return Node{

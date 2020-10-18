@@ -26,9 +26,9 @@ func Fetch(dir string, options map[string]interface{}) []node.Node {
 	index := 0
 	if options["all"].(bool) {
 		file, _ := os.Stat(".")
-		nodes[0] = node.New(file)
+		nodes[0] = node.New(dir, file)
 		file, _ = os.Stat("..")
-		nodes[1] = node.New(file)
+		nodes[1] = node.New(dir, file)
 		index += 2
 	}
 
@@ -36,7 +36,7 @@ func Fetch(dir string, options map[string]interface{}) []node.Node {
 		if !options["all"].(bool) && []rune(files[i].Name())[0] == '.' {
 			continue
 		}
-		nodes[index] = node.New(files[i])
+		nodes[index] = node.New(dir, files[i])
 		index++
 	}
 
