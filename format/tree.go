@@ -3,6 +3,7 @@ package format
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/drn/nerd-ls/node"
 )
 
@@ -42,13 +43,14 @@ func Tree(nodes []node.Node, options map[string]interface{}) {
 			Display(
 				address,
 				map[string]interface{}{
-					"all":    options["all"],
-					"long":   options["long"],
-					"icon":   options["icon"],
-					"tree":   options["tree"],
-					"prefix": address,
-					"depth":  depth + 1,
-					"opened": opened,
+					"all":       options["all"],
+					"long":      options["long"],
+					"icon":      options["icon"],
+					"tree":      options["tree"],
+					"size-sort": options["size-sort"],
+					"prefix":    address,
+					"depth":     depth + 1,
+					"opened":    opened,
 				},
 			)
 		}
