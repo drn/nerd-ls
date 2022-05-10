@@ -2,14 +2,16 @@ package format
 
 import (
 	"fmt"
+	"math"
+	"os/user"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/drn/nerd-ls/humanize"
 	"github.com/drn/nerd-ls/node"
 	"github.com/drn/nerd-ls/util"
 	"github.com/fatih/color"
-	"math"
-	"strconv"
-	"strings"
-	"time"
 )
 
 // Long - Format listing in long format.
@@ -37,15 +39,18 @@ func Long(nodes []node.Node, options map[string]interface{}) {
 	}
 
 	// output padded values
-	length := len(values[0])
 	for i := range values {
 		for j := range values[i] {
-			// pad all attributes except the last
-			if j < length-1 {
-				padding := maxLengths[j] - lengths[i][j]
-				fmt.Print(strings.Repeat(" ", padding))
+			// Not (Link or Size) is left-aligned
+			if !(j == 1 || j == 4) {
+				fmt.Printf("%s ", values[i][j])
 			}
-			fmt.Printf("%s ", values[i][j])
+			// padding
+			fmt.Print(strings.Repeat(" ", maxLengths[j]-lengths[i][j]))
+			// Link and Size right-aligned
+			if j == 1 || j == 4 {
+				fmt.Printf("%s ", values[i][j])
+			}
 		}
 		fmt.Print("\n")
 	}
@@ -77,26 +82,18 @@ func displaySummary(nodes []node.Node) {
 }
 
 func extractValues(node node.Node, options map[string]interface{}) []string {
+	icon := ""
 	if options["icon"].(bool) {
-		return []string{
-			formatMode(node.Mode.String()),
-			strconv.Itoa(node.LinkCount),
-			fmt.Sprintf("%s ", node.User),
-			fmt.Sprintf("%s  ", node.Group),
-			formatSize(node.Size),
-			formatTime(node),
-			fmt.Sprintf(" %c", node.Icon),
-			formatName(node),
-		}
+		icon = fmt.Sprintf("%c", node.Icon)
 	}
 	return []string{
 		formatMode(node.Mode.String()),
 		strconv.Itoa(node.LinkCount),
-		fmt.Sprintf("%s ", node.User),
-		fmt.Sprintf("%s  ", node.Group),
+		formatUser(node.User),
+		formatGroup(node.Group),
 		formatSize(node.Size),
 		formatTime(node),
-		formatName(node),
+		icon + formatName(node),
 	}
 }
 
@@ -122,6 +119,32 @@ func formatSize(sizeInt int) string {
 	}
 	// above 1G
 	return color.New(color.FgRed, color.Bold).Sprint(str)
+}
+
+func formatUser(u string) string {
+	cu, uerr := user.Current()
+	if uerr != nil {
+		return u
+	}
+	if u == cu.Username {
+		return color.New(color.FgYellow, color.Bold).Sprint(u)
+	}
+	return u
+}
+
+func formatGroup(g string) string {
+	cu, uerr := user.Current()
+	if uerr != nil {
+		return g
+	}
+	grp, gerr := user.LookupGroupId(cu.Gid)
+	if gerr != nil {
+		return g
+	}
+	if g == grp.Name {
+		return color.New(color.FgYellow, color.Bold).Sprint(g)
+	}
+	return g
 }
 
 func formatTime(node node.Node) string {
@@ -168,7 +191,7 @@ func formatMode(mode string) string {
 	}
 
 	return fmt.Sprintf(
-		"%s%s%s%s%s%s%s%s%s%s ",
+		"%s%s%s%s%s%s%s%s%s%s",
 		colorize(runes[0], color.New(color.FgWhite, color.Bold)),
 		colorize(runes[1], color.New(color.FgGreen)),
 		colorize(runes[2], color.New(color.FgGreen)),
